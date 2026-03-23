@@ -4,7 +4,7 @@ import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
+  const [emailOrPhone, setEmailOrPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [forgotEmail, setForgotEmail] = useState("");
@@ -51,75 +51,89 @@ const LoginPage = () => {
     window.open("https://healthcare-terms-policies.onrender.com/privacy-and-policy", "_blank");
   };
 
-  // Login handler - Modified version
+  // Login handler - Updated for email OR phone number
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
-  setTermsError("");
+    e.preventDefault();
+    setError("");
+    setTermsError("");
 
-  if (!email || !password) {
-    setError("Please fill in both fields.");
-    return;
-  }
+    if (!emailOrPhone || !password) {
+      setError("Please fill in both fields.");
+      return;
+    }
 
-  if (needsTermsAcceptance && !acceptTerms) {
-    setTermsError("You must accept the terms and conditions to continue.");
-    return;
-  }
+    if (needsTermsAcceptance && !acceptTerms) {
+      setTermsError("You must accept the terms and conditions to continue.");
+      return;
+    }
 
-  try {
-    const response = await axios.post(
-      "https://api.credenthealth.com/api/staff/login-staff",
-      { 
-        email, 
+    try {
+      // Check if input is email or phone number
+      const isEmail = emailOrPhone.includes('@');
+      
+      const loginData = {
         password,
         acceptTermsAndConditions: needsTermsAcceptance ? acceptTerms : false
-      },
-      { headers: { "Content-Type": "application/json" } }
-    );
+      };
 
-    if (response.status === 200) {
-      const { staff, companyInfo } = response.data;
-      
-      // Terms and conditions handling
-      if (staff.termsAndConditionsAccepted) {
-        setNeedsTermsAcceptance(false);
-        localStorage.setItem("acceptedTerms", "true");
+      // Set either email or contact_number based on input type
+      if (isEmail) {
+        loginData.email = emailOrPhone;
+      } else {
+        loginData.contact_number = emailOrPhone;
       }
 
-      // Store basic staff info
-      localStorage.setItem("staffId", staff._id);
-      localStorage.setItem("name", staff.name);
-      localStorage.setItem("gender", staff.gender);
-      
-      // Store companyId (from staff object or companyInfo)
-      const companyIdToStore = staff.companyId || (companyInfo && companyInfo.companyId);
-      if (companyIdToStore) {
-        localStorage.setItem("companyId", companyIdToStore);
-      }
-      
-      // Store companyName if available
-      if (companyInfo && companyInfo.companyName) {
-        localStorage.setItem("companyName", companyInfo.companyName);
-      }
-      
-      // Store full objects
-      sessionStorage.setItem("staff", JSON.stringify(staff));
-      if (companyInfo) {
-        sessionStorage.setItem("companyInfo", JSON.stringify(companyInfo));
-      }
+      const response = await axios.post(
+        "https://api.credenthealth.com/api/staff/login-staff",
+        loginData,
+        { headers: { "Content-Type": "application/json" } }
+      );
 
-      navigate("/home");
+      if (response.status === 200) {
+        const { staff, companyInfo } = response.data;
+        
+        // Terms and conditions handling
+        if (staff.termsAndConditionsAccepted) {
+          setNeedsTermsAcceptance(false);
+          localStorage.setItem("acceptedTerms", "true");
+        }
+
+        // Store basic staff info
+        localStorage.setItem("staffId", staff._id);
+        localStorage.setItem("name", staff.name);
+        localStorage.setItem("gender", staff.gender);
+        if (staff.contact_number) {
+          localStorage.setItem("contact_number", staff.contact_number);
+        }
+        
+        // Store companyId (from staff object or companyInfo)
+        const companyIdToStore = staff.companyId || (companyInfo && companyInfo.companyId);
+        if (companyIdToStore) {
+          localStorage.setItem("companyId", companyIdToStore);
+        }
+        
+        // Store companyName if available
+        if (companyInfo && companyInfo.companyName) {
+          localStorage.setItem("companyName", companyInfo.companyName);
+        }
+        
+        // Store full objects
+        sessionStorage.setItem("staff", JSON.stringify(staff));
+        if (companyInfo) {
+          sessionStorage.setItem("companyInfo", JSON.stringify(companyInfo));
+        }
+
+        navigate("/home");
+      }
+    } catch (err) {
+      if (err.response?.data?.message?.includes('Terms and conditions')) {
+        setTermsError(err.response.data.message);
+        setNeedsTermsAcceptance(true);
+      } else {
+        setError("Invalid email/phone or password.");
+      }
     }
-  } catch (err) {
-    if (err.response?.data?.message?.includes('Terms and conditions')) {
-      setTermsError(err.response.data.message);
-      setNeedsTermsAcceptance(true);
-    } else {
-      setError("Invalid email or password.");
-    }
-  }
-};
+  };
 
   // Forgot password handler - UNCHANGED
   const handleForgotPassword = async (e) => {
@@ -190,13 +204,15 @@ const LoginPage = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="email" className="block mb-1 font-medium">Email Address</label>
+                <label htmlFor="emailOrPhone" className="block mb-1 font-medium">
+                  Email or Phone Number
+                </label>
                 <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  type="text"
+                  id="emailOrPhone"
+                  value={emailOrPhone}
+                  onChange={(e) => setEmailOrPhone(e.target.value)}
+                  placeholder="Enter your email or phone number"
                   required
                   className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -292,7 +308,7 @@ const LoginPage = () => {
         </div>
       </div>
 
-      {/* Forgot Password Modal */}
+      {/* Forgot Password Modal - UNCHANGED */}
       {showForgotModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">

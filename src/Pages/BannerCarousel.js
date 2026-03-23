@@ -49,7 +49,7 @@ const BannerCarousel = () => {
 
   if (loading) {
     return (
-      <div className="w-full px-4">
+      <div className="w-full max-w-6xl mx-auto px-4">
         <div className="h-32 md:h-44 bg-gray-200 rounded-xl mt-4 flex items-center justify-center">
           <div className="text-gray-600">Loading banners...</div>
         </div>
@@ -59,7 +59,7 @@ const BannerCarousel = () => {
 
   if (error) {
     return (
-      <div className="w-full px-4">
+      <div className="w-full max-w-6xl mx-auto px-4">
         <div className="h-32 md:h-44 bg-red-100 rounded-xl mt-4 flex items-center justify-center">
           <div className="text-red-600">{error}</div>
         </div>
@@ -69,7 +69,7 @@ const BannerCarousel = () => {
 
   if (banners.length === 0) {
     return (
-      <div className="w-full px-4">
+      <div className="w-full max-w-6xl mx-auto px-4">
         <div className="h-32 md:h-44 bg-gray-200 rounded-xl mt-4 flex items-center justify-center">
           <div className="text-gray-600">No banners available</div>
         </div>
@@ -78,9 +78,9 @@ const BannerCarousel = () => {
   }
 
   return (
-    <div className="w-full px-4">
-      {/* Banner Container */}
-      <div className="relative h-32 sm:h-36 md:h-48 lg:h-56 xl:h-64 overflow-hidden rounded-xl shadow-lg mt-4">
+    <div className="w-full max-w-6xl mx-auto px-4">
+      {/* Banner Container - Shadow removed */}
+      <div className="relative h-32 sm:h-36 md:h-48 lg:h-56 xl:h-64 overflow-hidden rounded-xl mt-4">
         <div className="relative w-full h-full">
           {banners.map((banner, index) => (
             <div

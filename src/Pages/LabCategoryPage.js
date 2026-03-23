@@ -8,8 +8,7 @@ const LabCategoryPage = () => {
   const cardData = [
     { name: "Lab Tests", image: "/images/labtest.png", path: "/labtest" },
     { name: "Packages", image: "/images/package.png", path: "/packages" },
-    { name: "Scans & X-Rays", image: "/images/xray.png", path: "/scan&xrays" },
-    { name: "Upload Prescription", image: "/images/upload.png", path: "/prescriptions" }
+    { name: "Scans & X-Rays", image: "/images/xray.png", path: "/scan&xrays" }
   ];
 
   return (
@@ -21,7 +20,7 @@ const LabCategoryPage = () => {
             Lab Test & Packages
           </h1>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {cardData.map((item, index) => (
               <div
                 key={index}

@@ -24,6 +24,7 @@ const FamilyPage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
+  const [ageManuallyEdited, setAgeManuallyEdited] = useState(false);
 
   // Retrieve staffId from localStorage
   const staffId = localStorage.getItem("staffId");
@@ -47,11 +48,50 @@ const FamilyPage = () => {
     }
   }, [staffId]);
 
+  // Function to calculate age from DOB
+  const calculateAge = (dob) => {
+    if (!dob) return "";
+    
+    const birthDate = new Date(dob);
+    const today = new Date();
+    
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    
+    return age.toString();
+  };
+
   const handleInputChange = (e) => {
-    setNewFamilyMember({
-      ...newFamilyMember,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    
+    // Special handling for DOB
+    if (name === "DOB") {
+      const calculatedAge = calculateAge(value);
+      setNewFamilyMember({
+        ...newFamilyMember,
+        DOB: value,
+        age: ageManuallyEdited ? newFamilyMember.age : calculatedAge
+      });
+    } 
+    // Special handling for age
+    else if (name === "age") {
+      setAgeManuallyEdited(true);
+      setNewFamilyMember({
+        ...newFamilyMember,
+        age: value
+      });
+    }
+    // All other fields
+    else {
+      setNewFamilyMember({
+        ...newFamilyMember,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -106,7 +146,8 @@ const FamilyPage = () => {
     });
     setEditMode(false);
     setSelectedMember(null);
-    setIsFormVisible(false); // back to list
+    setIsFormVisible(false);
+    setAgeManuallyEdited(false);
   };
 
   const handleEdit = (member) => {
@@ -115,7 +156,7 @@ const FamilyPage = () => {
       mobileNumber: member.mobileNumber,
       age: member.age,
       gender: member.gender,
-      DOB: member.DOB,
+      DOB: member.DOB ? member.DOB.split('T')[0] : "", // Format date for input
       height: member.height,
       weight: member.weight,
       relation: member.relation,
@@ -126,7 +167,8 @@ const FamilyPage = () => {
     });
     setEditMode(true);
     setSelectedMember(member);
-    setIsFormVisible(true); // show form
+    setIsFormVisible(true);
+    setAgeManuallyEdited(true); // Assume age came from DB, so don't auto-override
   };
 
   const handleRemove = (memberId) => {
@@ -143,16 +185,15 @@ const FamilyPage = () => {
   };
 
   const genderOptions = ["Male", "Female", "Other"];
- const relationOptions = [
-  "Spouse",
-  "Wife",
-  "Husband",
-  "Son",
-  "Daughter",
-  "Father",
-  "Mother",
-];
-
+  const relationOptions = [
+    "Spouse",
+    "Wife",
+    "Husband",
+    "Son",
+    "Daughter",
+    "Father",
+    "Mother",
+  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
@@ -172,13 +213,11 @@ const FamilyPage = () => {
                 onClick={() => setIsFormVisible(true)}
                 className="flex items-center border border-blue-500 bg-white text-blue-500 py-3 px-4 rounded-lg w-full mb-6 font-medium"
               >
-                {/* Icon with blue background */}
                 <div className="bg-blue-500 text-white p-2 rounded-full mr-2 flex items-center justify-center">
                   <FaPlus size={16} />
                 </div>
                 Add your family members
               </button>
-
 
               {/* Members List */}
               {loading && (
@@ -196,7 +235,6 @@ const FamilyPage = () => {
                     key={member._id}
                     className="bg-white p-4 rounded-lg shadow flex justify-between items-center"
                   >
-                    {/* Left side - person icon + details */}
                     <div className="flex items-center space-x-3">
                       <FaUser size={30} className="text-blue-500" />
                       <div>
@@ -209,7 +247,6 @@ const FamilyPage = () => {
                       </div>
                     </div>
 
-                    {/* Right side - actions */}
                     <div className="flex items-center space-x-4">
                       <button
                         onClick={() => handleEdit(member)}
@@ -242,6 +279,7 @@ const FamilyPage = () => {
                   onChange={handleInputChange}
                   placeholder="Full Name"
                   className="w-full p-3 border rounded"
+                  required
                 />
 
                 <select
@@ -249,6 +287,7 @@ const FamilyPage = () => {
                   value={newFamilyMember.relation}
                   onChange={handleInputChange}
                   className="w-full p-3 border rounded"
+                  required
                 >
                   <option value="">Select Relation</option>
                   {relationOptions.map((relation) => (
@@ -268,36 +307,46 @@ const FamilyPage = () => {
                 />
 
                 <div className="flex space-x-4">
-                  <input
-                    type="number"
-                    name="age"
-                    value={newFamilyMember.age}
-                    onChange={handleInputChange}
-                    placeholder="Age"
-                    className="w-1/2 p-3 border rounded"
-                  />
-                  <select
-                    name="gender"
-                    value={newFamilyMember.gender}
-                    onChange={handleInputChange}
-                    className="w-1/2 p-3 border rounded"
-                  >
-                    <option value="">Gender</option>
-                    {genderOptions.map((gender) => (
-                      <option key={gender} value={gender}>
-                        {gender}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="w-1/2">
+                    <input
+                      type="date"
+                      name="DOB"
+                      value={newFamilyMember.DOB}
+                      onChange={handleInputChange}
+                      className="w-full p-3 border rounded"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Date of Birth (Auto-calculates age)
+                    </p>
+                  </div>
+                  <div className="w-1/2">
+                    <input
+                      type="number"
+                      name="age"
+                      value={newFamilyMember.age}
+                      onChange={handleInputChange}
+                      placeholder="Age (Auto or Manual)"
+                      className="w-full p-3 border rounded"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter manually or auto from DOB
+                    </p>
+                  </div>
                 </div>
 
-                <input
-                  type="date"
-                  name="DOB"
-                  value={newFamilyMember.DOB}
+                <select
+                  name="gender"
+                  value={newFamilyMember.gender}
                   onChange={handleInputChange}
                   className="w-full p-3 border rounded"
-                />
+                >
+                  <option value="">Gender</option>
+                  {genderOptions.map((gender) => (
+                    <option key={gender} value={gender}>
+                      {gender}
+                    </option>
+                  ))}
+                </select>
 
                 <div className="flex space-x-4">
                   <input
@@ -351,6 +400,7 @@ const FamilyPage = () => {
                   onChange={handleInputChange}
                   placeholder="Description"
                   className="w-full p-3 border rounded"
+                  rows="3"
                 ></textarea>
 
                 <button
@@ -367,7 +417,6 @@ const FamilyPage = () => {
                   Cancel
                 </button>
               </form>
-
             </>
           )}
         </div>
