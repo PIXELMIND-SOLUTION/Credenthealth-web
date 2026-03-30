@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   IoHomeOutline,
@@ -19,7 +19,12 @@ const Navbar = () => {
   const [walletBalance, setWalletBalance] = useState(null);
   const [cartCount, setCartCount] = useState(0);
   const [isMedicalDropdownOpen, setIsMedicalDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  
+  // Refs for dropdowns
+  const desktopDropdownRef = useRef(null);
+  const mobileDropdownRef = useRef(null);
 
   const staffId = localStorage.getItem("staffId");
 
@@ -56,10 +61,16 @@ const Navbar = () => {
   // ✅ Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest('.medical-dropdown')) {
+      // Close desktop dropdown if clicking outside
+      if (desktopDropdownRef.current && !desktopDropdownRef.current.contains(event.target)) {
         setIsMedicalDropdownOpen(false);
       }
+      // Close mobile dropdown if clicking outside
+      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target)) {
+        setIsMobileMenuOpen(false);
+      }
     };
+    
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
@@ -79,6 +90,29 @@ const Navbar = () => {
     window.addEventListener("resize", checkWidth);
     return () => window.removeEventListener("resize", checkWidth);
   }, []);
+
+  // Handle dropdown toggle to prevent event bubbling
+  const handleDesktopDropdownToggle = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsMedicalDropdownOpen(!isMedicalDropdownOpen);
+  };
+
+  const handleMobileDropdownToggle = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleNavigation = (path, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setIsMedicalDropdownOpen(false);
+    setIsMobileMenuOpen(false);
+    navigate(path);
+  };
 
   return (
     <>
@@ -103,31 +137,37 @@ const Navbar = () => {
           <div className="flex items-center gap-6">
             {/* Desktop Nav */}
             <div className="hidden lg:flex gap-6 text-gray-700 text-sm font-medium">
-              <button onClick={() => navigate("/home")} className="flex items-center gap-1 hover:text-blue-600">
+              <button 
+                onClick={() => handleNavigation("/home")} 
+                className="flex items-center gap-1 hover:text-blue-600 transition-colors"
+              >
                 <IoHomeOutline size={20} /> Home
               </button>
-              <button onClick={() => navigate("/mybookings")} className="flex items-center gap-1 hover:text-blue-600">
+              <button 
+                onClick={() => handleNavigation("/mybookings")} 
+                className="flex items-center gap-1 hover:text-blue-600 transition-colors"
+              >
                 <IoMenuOutline size={20} /> Bookings
               </button>
               
-              {/* Medical Records Dropdown - CHHOTA AUR PYARA */}
-              <div className="relative medical-dropdown">
+              {/* Medical Records Dropdown - DESKTOP */}
+              <div className="relative medical-dropdown" ref={desktopDropdownRef}>
                 <button
-                  onClick={() => setIsMedicalDropdownOpen(!isMedicalDropdownOpen)}
-                  className="flex items-center gap-1 hover:text-blue-600 focus:outline-none"
+                  onClick={handleDesktopDropdownToggle}
+                  className="flex items-center gap-1 hover:text-blue-600 focus:outline-none transition-colors"
                 >
                   <IoAddOutline size={20} /> Medical Records
-                  <IoChevronDownOutline size={14} className={`transition-transform duration-200 ${isMedicalDropdownOpen ? 'rotate-180' : ''}`} />
+                  <IoChevronDownOutline 
+                    size={14} 
+                    className={`transition-transform duration-200 ${isMedicalDropdownOpen ? 'rotate-180' : ''}`} 
+                  />
                 </button>
                 
-                {/* CHHOTA DROPDOWN MENU */}
+                {/* DROPDOWN MENU */}
                 {isMedicalDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50 animate-fadeIn">
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50 animate-fadeIn">
                     <button
-                      onClick={() => {
-                        navigate("/medicalrecord");
-                        setIsMedicalDropdownOpen(false);
-                      }}
+                      onClick={(e) => handleNavigation("/medicalrecord", e)}
                       className="w-full px-3 py-2 hover:bg-blue-50 flex items-center gap-2 text-sm transition-colors"
                     >
                       <IoDocumentTextOutline className="text-blue-600" size={16} />
@@ -137,10 +177,7 @@ const Navbar = () => {
                     <div className="border-t border-gray-100 my-1"></div>
                     
                     <button
-                      onClick={() => {
-                        navigate("/prescriptions");
-                        setIsMedicalDropdownOpen(false);
-                      }}
+                      onClick={(e) => handleNavigation("/prescriptions", e)}
                       className="w-full px-3 py-2 hover:bg-green-50 flex items-center gap-2 text-sm transition-colors"
                     >
                       <IoCloudUploadOutline className="text-green-600" size={16} />
@@ -150,10 +187,16 @@ const Navbar = () => {
                 )}
               </div>
               
-              <button onClick={() => navigate("/chat")} className="flex items-center gap-1 hover:text-blue-600">
+              <button 
+                onClick={() => handleNavigation("/chat")} 
+                className="flex items-center gap-1 hover:text-blue-600 transition-colors"
+              >
                 <CiChat1 size={20} /> Chat
               </button>
-              <button onClick={() => navigate("/profile")} className="flex items-center gap-1 hover:text-blue-600">
+              <button 
+                onClick={() => handleNavigation("/profile")} 
+                className="flex items-center gap-1 hover:text-blue-600 transition-colors"
+              >
                 <IoPersonOutline size={20} /> Profile
               </button>
             </div>
@@ -161,7 +204,7 @@ const Navbar = () => {
             {/* Wallet */}
             {walletBalance !== null && (
               <div
-                onClick={() => navigate('/wallet')}
+                onClick={() => handleNavigation('/wallet')}
                 className="flex items-center gap-1 text-gray-700 bg-gray-100 px-2 py-1 rounded cursor-pointer hover:bg-gray-200 transition"
                 title="Go to Wallet"
               >
@@ -172,7 +215,7 @@ const Navbar = () => {
 
             {/* Cart with Badge */}
             <button
-              onClick={() => navigate("/cart")}
+              onClick={() => handleNavigation("/cart")}
               className="relative flex items-center text-gray-800 hover:text-gray-600"
             >
               <IoCartOutline size={26} />
@@ -186,10 +229,13 @@ const Navbar = () => {
       </header>
 
       {/* ✅ Bottom Navigation (Mobile only) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t z-50">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t z-40">
         <div className="flex justify-around items-center py-2">
           {/* Home */}
-          <button onClick={() => navigate("/home")} className="flex flex-col items-center text-gray-700 text-xs">
+          <button 
+            onClick={() => handleNavigation("/home")} 
+            className="flex flex-col items-center text-gray-700 text-xs"
+          >
             <IconWrapper>
               <IoHomeOutline size={22} />
             </IconWrapper>
@@ -197,18 +243,21 @@ const Navbar = () => {
           </button>
 
           {/* Bookings */}
-          <button onClick={() => navigate("/mybookings")} className="flex flex-col items-center text-gray-700 text-xs">
+          <button 
+            onClick={() => handleNavigation("/mybookings")} 
+            className="flex flex-col items-center text-gray-700 text-xs"
+          >
             <IconWrapper>
               <IoMenuOutline size={22} />
             </IconWrapper>
             Bookings
           </button>
 
-          {/* Medical Records Dropdown for Mobile - CHHOTA AUR PYARA */}
-          <div className="relative medical-dropdown">
+          {/* Medical Records Dropdown for Mobile */}
+          <div className="relative" ref={mobileDropdownRef}>
             <button
-              onClick={() => setIsMedicalDropdownOpen(!isMedicalDropdownOpen)}
-              className="flex flex-col items-center text-gray-700 text-xs"
+              onClick={handleMobileDropdownToggle}
+              className="flex flex-col items-center text-gray-700 text-xs focus:outline-none"
             >
               <IconWrapper>
                 <IoAddOutline size={22} />
@@ -216,38 +265,38 @@ const Navbar = () => {
               Records
             </button>
             
-            {/* Mobile Dropdown - CHHOTA */}
-            {isMedicalDropdownOpen && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50 animate-slideUp">
+            {/* Mobile Dropdown */}
+            {isMobileMenuOpen && (
+              <div 
+                className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50 animate-slideUp"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <button
-                  onClick={() => {
-                    navigate("/medicalrecord");
-                    setIsMedicalDropdownOpen(false);
-                  }}
-                  className="w-full px-3 py-2 hover:bg-blue-50 flex items-center gap-2 text-sm"
+                  onClick={(e) => handleNavigation("/medicalrecord", e)}
+                  className="w-full px-3 py-2 hover:bg-blue-50 flex items-center gap-2 text-sm transition-colors"
                 >
                   <IoDocumentTextOutline className="text-blue-600" size={14} />
-                  <span>View</span>
+                  <span>View Records</span>
                 </button>
                 
                 <div className="border-t border-gray-100"></div>
                 
                 <button
-                  onClick={() => {
-                    navigate("/prescriptions");
-                    setIsMedicalDropdownOpen(false);
-                  }}
-                  className="w-full px-3 py-2 hover:bg-green-50 flex items-center gap-2 text-sm"
+                  onClick={(e) => handleNavigation("/prescriptions", e)}
+                  className="w-full px-3 py-2 hover:bg-green-50 flex items-center gap-2 text-sm transition-colors"
                 >
                   <IoCloudUploadOutline className="text-green-600" size={14} />
-                  <span>Upload</span>
+                  <span>Upload Record</span>
                 </button>
               </div>
             )}
           </div>
 
           {/* Chat */}
-          <button onClick={() => navigate("/chat")} className="flex flex-col items-center text-gray-700 text-xs">
+          <button 
+            onClick={() => handleNavigation("/chat")} 
+            className="flex flex-col items-center text-gray-700 text-xs"
+          >
             <IconWrapper>
               <CiChat1 size={22} />
             </IconWrapper>
@@ -255,7 +304,10 @@ const Navbar = () => {
           </button>
 
           {/* Profile */}
-          <button onClick={() => navigate("/profile")} className="flex flex-col items-center text-gray-700 text-xs">
+          <button 
+            onClick={() => handleNavigation("/profile")} 
+            className="flex flex-col items-center text-gray-700 text-xs"
+          >
             <IconWrapper>
               <IoPersonOutline size={22} />
             </IconWrapper>
@@ -269,7 +321,7 @@ const Navbar = () => {
         @keyframes fadeIn {
           from {
             opacity: 0;
-            transform: translateY(-5px);
+            transform: translateY(-10px);
           }
           to {
             opacity: 1;
@@ -280,7 +332,7 @@ const Navbar = () => {
         @keyframes slideUp {
           from {
             opacity: 0;
-            transform: translate(-50%, 5px);
+            transform: translate(-50%, 10px);
           }
           to {
             opacity: 1;
@@ -289,11 +341,11 @@ const Navbar = () => {
         }
         
         .animate-fadeIn {
-          animation: fadeIn 0.15s ease-out;
+          animation: fadeIn 0.2s ease-out;
         }
         
         .animate-slideUp {
-          animation: slideUp 0.15s ease-out;
+          animation: slideUp 0.2s ease-out;
         }
       `}</style>
     </>
