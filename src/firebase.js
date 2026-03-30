@@ -54,7 +54,7 @@ export const generateFcmToken = async (staffId) => {
 // Token backend pe save karne ka function
 const saveFcmTokenToBackend = async (staffId, fcmToken) => {
   try {
-    const response = await fetch('http://localhost:4051/api/staff/save-fcm-token', {
+    const response = await fetch('https://api.credenthealth.com/api/staff/save-fcm-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

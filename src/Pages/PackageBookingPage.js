@@ -324,34 +324,35 @@ const StaffPackageBookingPage = () => {
   };
 
   // ✅ MODIFIED: handleConfirmBooking with duplicate package error handling
-  const handleConfirmBooking = async () => {
-    if (isBookDisabled()) {
-      alert("Please fill all required fields");
-      return;
+ const handleConfirmBooking = async () => {
+  if (isBookDisabled()) {
+    alert("Please fill all required fields");
+    return;
+  }
+  setProcessingPayment(true);
+  try {
+    let walletDataToUse = walletData;
+    if (!walletDataToUse) {
+      walletDataToUse = await fetchWalletData();
     }
-    setProcessingPayment(true);
-    try {
-      let walletDataToUse = walletData;
-      if (!walletDataToUse) {
-        walletDataToUse = await fetchWalletData();
-      }
-      const availableBalance = walletDataToUse?.forTests || 0;
-      const packagePrice = selectedPackage.price || 0;
+    const availableBalance = walletDataToUse?.forPackages || 0;  // ✅ FIXED - use forPackages
+    const packagePrice = selectedPackage.price || 0;
 
-      if (availableBalance >= packagePrice) {
-        const response = await axios.post(
-          `https://api.credenthealth.com/api/staff/package-bookings/${staffId}`,
-          {
-            familyMemberId: selectedFamilyMember,
-            diagnosticId: selectedDiagnostic._id,
-            packageId: selectedPackage.packageId,
-            serviceType: selectedOption,
-            date: selectedDate,
-            timeSlot: selectedTime,
-            addressId: selectedOption === "Home Collection" ? selectedAddress : null,
-            useWallet: true,
-          }
-        );
+    if (availableBalance >= packagePrice) {
+      // Use wallet for full payment
+      const response = await axios.post(
+        `https://api.credenthealth.com/api/staff/package-bookings/${staffId}`,
+        {
+          familyMemberId: selectedFamilyMember,
+          diagnosticId: selectedDiagnostic._id,
+          packageId: selectedPackage.packageId,
+          serviceType: selectedOption,
+          date: selectedDate,
+          timeSlot: selectedTime,
+          addressId: selectedOption === "Home Collection" ? selectedAddress : null,
+          useWallet: true,
+        }
+      );
         if (response.data.isSuccessfull) {
           handlePopupClose();
           showSuccessAndNavigate();
