@@ -18,7 +18,8 @@ const WelcomePage = () => {
 
   return (
     <div className="w-full mx-auto mt-4 px-4">
-      <div className="bg-[#F1E0CA] rounded-xl shadow-xl p-4">
+      {/* Lighter background: #CEE9F2 */}
+      <div className="bg-[#CEE9F2] rounded-xl shadow-xl p-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-2">
 
           {/* Greeting */}
@@ -26,7 +27,7 @@ const WelcomePage = () => {
             <h1 className="text-xl md:text-3xl font-bold text-gray-800">
               {greeting}!
             </h1>
-            <p className="text-gray-600 mt-1 text-xs">
+            <p className="text-gray-700 mt-1 text-xs">
               Welcome to our wellness platform, your guide towards better health, one step at a time.
             </p>
           </div>
