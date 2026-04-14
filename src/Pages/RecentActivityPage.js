@@ -17,7 +17,7 @@ const RecentActivityPage = () => {
       setDoctorBooking(res.data.booking || null);
     } catch (err) {
       console.error("Doctor booking fetch error:", err);
-      setError("No recent doctor booking found for this user.");
+      setError("No recent doctor bookings found.");
     }
   };
 

@@ -570,7 +570,7 @@ const StaffPackageBookingPage = () => {
               Select Diagnostic Center
             </h2>
             <p className="text-gray-600 mb-6 text-sm sm:text-base">
-              Choose where you want to book "{selectedPackage.packageName}"
+              Choose the diagnostic partner relevent to you.
             </p>
           </div>
 

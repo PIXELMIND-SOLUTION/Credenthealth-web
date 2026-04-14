@@ -12,39 +12,42 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-dark text-light py-5 px-4">
+    <footer
+      className="py-5 px-4"
+      style={{ backgroundColor: "#B2DBE7", color: "#1f2937" }} // New background color + dark text
+    >
       {/* Helmet for SEO Meta Tags */}
       <Helmet>
         <title>Credent Health - Healthcare Solutions & Medical Services</title>
-        <meta 
-          name="description" 
-          content="Credent Health by Elthium Healthcare Pvt Ltd - One Platform, Total Wellness. Comprehensive healthcare solutions, medical services, and patient care." 
+        <meta
+          name="description"
+          content="Credent Health by Elthium Healthcare Pvt Ltd - One Platform, Total Wellness. Comprehensive healthcare solutions, medical services, and patient care."
         />
-        <meta 
-          name="keywords" 
-          content="credent health, healthcare solutions, medical services, patient care, health management, elthium healthcare, bangalore hospitals, medical records" 
+        <meta
+          name="keywords"
+          content="credent health, healthcare solutions, medical services, patient care, health management, elthium healthcare, bangalore hospitals, medical records"
         />
         <meta name="author" content="Credent Health" />
         <link rel="canonical" href="https://credenthealth.com" />
-        
+
         {/* Open Graph Tags */}
         <meta property="og:title" content="Credent Health - Healthcare Solutions & Medical Services" />
-        <meta 
-          property="og:description" 
-          content="One Platform, Total Wellness - Comprehensive healthcare solutions and medical services by Credent Health." 
+        <meta
+          property="og:description"
+          content="One Platform, Total Wellness - Comprehensive healthcare solutions and medical services by Credent Health."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://credenthealth.com" />
         <meta property="og:image" content="https://credenthealth.com/logo.png" />
         <meta property="og:site_name" content="Credent Health" />
-        
+
         {/* Twitter Card Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Credent Health - Healthcare Solutions" />
         <meta name="twitter:description" content="One Platform, Total Wellness - Your trusted healthcare partner." />
         <meta name="twitter:image" content="https://credenthealth.com/logo.png" />
       </Helmet>
-      
+
       {/* Schema Structured Data for SEO */}
       <script
         type="application/ld+json"
@@ -52,42 +55,44 @@ const Footer = () => {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "MedicalOrganization",
-            "name": "Credent Health",
-            "alternateName": "Credent Health by Elthium Healthcare Pvt Ltd",
-            "url": "https://credenthealth.com",
-            "logo": "https://credenthealth.com/logo.png",
-            "description": "Credent Health - One Platform, Total Wellness. Comprehensive healthcare solutions and medical services.",
-            "address": {
+            name: "Credent Health",
+            alternateName: "Credent Health by Elthium Healthcare Pvt Ltd",
+            url: "https://credenthealth.com",
+            logo: "https://credenthealth.com/logo.png",
+            description:
+              "Credent Health - One Platform, Total Wellness. Comprehensive healthcare solutions and medical services.",
+            address: {
               "@type": "PostalAddress",
-              "streetAddress": "MSR NORTH TOWER, 16TH FLOOR, DR. PUNEETH RAJ KUMAR ROAD, MS RAMAIAH NORTH CITY, MANAYATA",
-              "addressLocality": "Bengaluru",
-              "addressRegion": "Karnataka",
-              "postalCode": "560045",
-              "addressCountry": "IN"
+              streetAddress:
+                "MSR NORTH TOWER, 16TH FLOOR, DR. PUNEETH RAJ KUMAR ROAD, MS RAMAIAH NORTH CITY, MANAYATA",
+              addressLocality: "Bengaluru",
+              addressRegion: "Karnataka",
+              postalCode: "560045",
+              addressCountry: "IN",
             },
-            "contactPoint": {
+            contactPoint: {
               "@type": "ContactPoint",
-              "telephone": "+91-7619196856",
-              "email": "credenthealth@gmail.com",
-              "contactType": "customer service",
-              "areaServed": "IN",
-              "availableLanguage": ["English", "Hindi"]
+              telephone: "+91-7619196856",
+              email: "credenthealth@gmail.com",
+              contactType: "customer service",
+              areaServed: "IN",
+              availableLanguage: ["English", "Hindi"],
             },
-            "sameAs": [
+            sameAs: [
               "https://www.facebook.com/credenthealth",
               "https://www.twitter.com/credenthealth",
               "https://www.instagram.com/credenthealth",
-              "https://www.linkedin.com/company/credenthealth"
-            ]
-          })
+              "https://www.linkedin.com/company/credenthealth",
+            ],
+          }),
         }}
       />
-      
+
       <div className="container">
         <div className="row gy-4">
           {/* About - Improved with better text */}
           <div className="col-12 col-lg-4">
-            <h3 className="d-flex align-items-center mb-3">
+            <h3 className="d-flex align-items-center mb-3" style={{ color: "#111827" }}>
               <img
                 src="/logo.png"
                 alt="Credent Health Logo - Healthcare Solutions"
@@ -96,38 +101,38 @@ const Footer = () => {
               />
               Credent Health
             </h3>
-            <p className="mb-3">
-              <strong>Credent Health by Elthium Healthcare Pvt Ltd</strong> - 
-              Your trusted partner for comprehensive healthcare solutions. 
-              One Platform, Total Wellness - Offering medical services, 
+            <p className="mb-3" style={{ color: "#1f2937" }}>
+              <strong>Credent Health by Elthium Healthcare Pvt Ltd</strong> -
+              Your trusted partner for comprehensive healthcare solutions.
+              One Platform, Total Wellness - Offering medical services,
               health management, and patient care services.
             </p>
             {/* Social Links */}
             <div className="d-flex gap-3 mt-3">
-              <a 
-                href="https://www.facebook.com/credenthealth" 
-                className="text-light"
+              <a
+                href="https://www.facebook.com/credenthealth"
+                style={{ color: "#1f2937" }}
                 aria-label="Follow Credent Health on Facebook"
               >
                 <FaFacebook size={20} />
               </a>
-              <a 
-                href="https://www.twitter.com/credenthealth" 
-                className="text-light"
+              <a
+                href="https://www.twitter.com/credenthealth"
+                style={{ color: "#1f2937" }}
                 aria-label="Follow Credent Health on Twitter"
               >
                 <FaTwitter size={20} />
               </a>
-              <a 
-                href="https://www.instagram.com/credenthealth" 
-                className="text-light"
+              <a
+                href="https://www.instagram.com/credenthealth"
+                style={{ color: "#1f2937" }}
                 aria-label="Follow Credent Health on Instagram"
               >
                 <FaInstagram size={20} />
               </a>
-              <a 
-                href="https://www.linkedin.com/company/credenthealth" 
-                className="text-light"
+              <a
+                href="https://www.linkedin.com/company/credenthealth"
+                style={{ color: "#1f2937" }}
                 aria-label="Follow Credent Health on LinkedIn"
               >
                 <FaLinkedin size={20} />
@@ -137,29 +142,30 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div className="col-6 col-md-4 col-lg-2">
-            <h5 className="mb-3">Quick Links</h5>
+            <h5 className="mb-3" style={{ color: "#111827" }}>Explore</h5>
             <ul className="list-unstyled">
               <li className="mb-2">
-                <a href="/home" className="text-light text-decoration-none" title="Credent Health Home">
+                <a href="/home" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Home">
                   Home
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/profile" className="text-light text-decoration-none" title="Credent Health Profile">
+                <a href="/profile" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Profile">
                   Profile
                 </a>
               </li>
               <li className="mb-2">
                 <a
                   href="/medicalrecord"
-                  className="text-light text-decoration-none"
+                  className="text-decoration-none"
+                  style={{ color: "#1f2937" }}
                   title="Credent Health Medical Records"
                 >
                   Medical Records
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/family" className="text-light text-decoration-none" title="Credent Health Family Members">
+                <a href="/family" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Family Members">
                   Family Members
                 </a>
               </li>
@@ -168,34 +174,35 @@ const Footer = () => {
 
           {/* Features */}
           <div className="col-6 col-md-4 col-lg-3">
-            <h5 className="mb-3">Healthcare Features</h5>
+            <h5 className="mb-3" style={{ color: "#111827" }}>Wellness Services</h5>
             <ul className="list-unstyled">
               <li className="mb-2">
                 <a
                   href="/mybookings"
-                  className="text-light text-decoration-none"
+                  className="text-decoration-none"
+                  style={{ color: "#1f2937" }}
                   title="Credent Health Bookings"
                 >
                   My Bookings
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/cart" className="text-light text-decoration-none" title="Credent Health Cart">
-                  My Cart
+                <a href="/mybookings" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Cart">
+                  My Orders
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/wallet" className="text-light text-decoration-none" title="Credent Health Wallet">
+                <a href="/wallet" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Wallet">
                   Wallet
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/chat" className="text-light text-decoration-none" title="Credent Health Chat">
-                  Chats
+                <a href="/chat" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Chat">
+                  Care Chat
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/help" className="text-light text-decoration-none" title="Credent Health Help">
+                <a href="/help" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Help">
                   Help & Support
                 </a>
               </li>
@@ -204,25 +211,25 @@ const Footer = () => {
 
           {/* Contact */}
           <div className="col-12 col-md-4 col-lg-3">
-            <h5 className="mb-3">Contact Credent Health</h5>
+            <h5 className="mb-3" style={{ color: "#111827" }}>Get in touch</h5>
             <ul className="list-unstyled">
-              <li className="d-flex align-items-start mb-2">
-                <FaMapMarkerAlt className="me-2 mt-1 flex-shrink-0" /> 
+              <li className="d-flex align-items-start mb-2" style={{ color: "#1f2937" }}>
+                <FaMapMarkerAlt className="me-2 mt-1 flex-shrink-0" />
                 <span>
-                  ELTHIUM HEALTHCARE PVT LTD, MSR NORTH TOWER, 16TH FLOOR, 
-                  DR. PUNEETH RAJ KUMAR ROAD, MS RAMAIAH NORTH CITY, 
+                  ELTHIUM HEALTHCARE PVT LTD, MSR NORTH TOWER, 16TH FLOOR,
+                  DR. PUNEETH RAJ KUMAR ROAD, MS RAMAIAH NORTH CITY,
                   MANAYATA, 560045 BENGALURU, KARNATAKA, INDIA
                 </span>
               </li>
               <li className="d-flex align-items-center mb-2">
-                <FaPhone className="me-2 flex-shrink-0" /> 
-                <a href="tel:+917619196856" className="text-light text-decoration-none">
+                <FaPhone className="me-2 flex-shrink-0" />
+                <a href="tel:+917619196856" className="text-decoration-none" style={{ color: "#1f2937" }}>
                   +91 7619196856
                 </a>
               </li>
               <li className="d-flex align-items-center">
-                <FaEnvelope className="me-2 flex-shrink-0" /> 
-                <a href="mailto:credenthealth@gmail.com" className="text-light text-decoration-none">
+                <FaEnvelope className="me-2 flex-shrink-0" />
+                <a href="mailto:credenthealth@gmail.com" className="text-decoration-none" style={{ color: "#1f2937" }}>
                   credenthealth@gmail.com
                 </a>
               </li>
@@ -230,26 +237,28 @@ const Footer = () => {
           </div>
         </div>
 
-        <hr className="mt-5 mb-4 border-secondary" />
+        <hr className="mt-5 mb-4 border-secondary" style={{ borderColor: "#9ca3af" }} />
 
         {/* Bottom Section */}
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
-          <p className="mb-2 mb-md-0 text-center text-md-start">
-            &copy; 2025 <strong>Credent Health</strong> - Healthcare Solutions & Medical Services. All rights reserved.
+          <p className="mb-2 mb-md-0 text-center text-md-start" style={{ color: "#1f2937" }}>
+            &copy; 2025 <strong>Credent Health</strong> - Prevensive Healthcare Solutions & Medical Services.
           </p>
 
           {/* Privacy & Terms Links */}
           <div className="d-flex gap-3 mt-2 mt-md-0">
-            <a 
-              href="/privacyandpolicy" 
-              className="text-light text-decoration-none"
+            <a
+              href="/privacyandpolicy"
+              className="text-decoration-none"
+              style={{ color: "#1f2937" }}
               title="Credent Health Privacy Policy"
             >
               Privacy Policy
             </a>
             <a
               href="/termsandconditions"
-              className="text-light text-decoration-none"
+              className="text-decoration-none"
+              style={{ color: "#1f2937" }}
               title="Credent Health Terms & Conditions"
             >
               Terms & Conditions

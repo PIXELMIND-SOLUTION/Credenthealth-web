@@ -164,7 +164,7 @@ const MedicalRecordsPage = () => {
                         <div className="flex items-center justify-between bg-gray-50 p-2 rounded border">
                           <div className="flex items-center">
                             <FaFilePdf className="text-red-500 mr-2" size={16} />
-                            <span className="text-sm font-medium text-gray-700">Diagnostic Report</span>
+                            <span className="text-sm font-medium text-gray-700">Medical Report</span>
                           </div>
                           <div className="flex gap-2">
                             <button
@@ -190,7 +190,7 @@ const MedicalRecordsPage = () => {
                         <div className="flex items-center justify-between bg-gray-50 p-2 rounded border">
                           <div className="flex items-center">
                             <FaFileAlt className="text-green-500 mr-2" size={16} />
-                            <span className="text-sm font-medium text-gray-700">Diagnostic Prescription</span>
+                            <span className="text-sm font-medium text-gray-700">Medical Prescription</span>
                           </div>
                           <div className="flex gap-2">
                             <button

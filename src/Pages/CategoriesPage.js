@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const categories = [
   { name: "Doctor Consultation", image: "/category/doc.png" },
   { name: "Lab Test & Packages", image: "/category/lab.png" },
-  { name: "HRA", image: "/category/hra.png" }
+  { name: "Health Risk Assessment", image: "/category/hra.png" }   // Changed from "HRA"
 ];
 
 const CategoriesPage = () => {
@@ -19,7 +19,7 @@ const CategoriesPage = () => {
       setShowPopup(true);
     } else if (categoryName === "Lab Test & Packages") {
       navigate("/lab-category");
-    } else if (categoryName === "HRA") {
+    } else if (categoryName === "Health Risk Assessment") {   // Updated condition
       navigate("/hra-category");
     } else if (
       categoryName === "Eye Care" ||
@@ -62,7 +62,7 @@ const CategoriesPage = () => {
               />
             </div>
             
-            {/* Category Name */}
+            {/* Category Name - now shows full form for HRA */}
             <p className="text-base font-bold text-gray-800 text-center sm:text-lg">
               {category.name}
             </p>

@@ -103,7 +103,7 @@ const HraPage = () => {
               className="cursor-pointer"
               onClick={handleBack}
             />
-            <h1 className="flex-1 text-center text-lg font-semibold">HRA</h1>
+            <h1 className="flex-1 text-center text-lg font-semibold">Heath Risk Assessment</h1>
             <div className="w-6" /> {/* spacer to balance layout */}
           </div>
 
@@ -134,9 +134,9 @@ const HraPage = () => {
 
               {/* Note */}
               <p className="text-sm text-gray-600 mb-6">
-                <span className="font-semibold">Note:</span> This is not a medical
-                diagnosis and is for education purposes. Your answers stay private
-                and will be used for analysis to get you a score.
+                <span className="font-semibold">Disclaimer:</span> This is not a medical
+                diagnosis and is for education purposes only and does not constitute a medical advice.
+                If you have any heath concerns, please consult a qualified healthcare professional.
               </p>
 
               {/* Start Button */}
