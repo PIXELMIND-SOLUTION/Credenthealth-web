@@ -34,7 +34,7 @@ const ProfilePage = () => {
     { icon: <FaUser className="text-blue-600" />, label: "My Profile", path: "/myprofile" },
     { icon: <FaKey className="text-green-600" />, label: "Change Password", path: "/changepassword" }, // Added Change Password
     { icon: <FaWallet className="text-blue-500" />, label: "Wallet", path: "/wallet" },
-    { icon: <FaQuestionCircle className="text-purple-500" />, label: "Help", path: "/help" },
+    { icon: <FaQuestionCircle className="text-purple-500" />, label: "Customer Support", path: "/help" },
     { icon: <FaUsers className="text-green-500" />, label: "Family Members", path: "/family" },
     { icon: <FaFileAlt className="text-orange-500" />, label: "Wellness Read", path: "/doctorblogs" },
     { icon: <FaMapMarkerAlt className="text-blue-400" />, label: "Address", path: "/address" },

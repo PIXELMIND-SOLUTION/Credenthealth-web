@@ -81,7 +81,7 @@ const HelpPage = () => {
           />
           <h1 className="text-lg font-semibold">Support</h1>
           {!showForm ? (
-            <button className="px-3 py-1 border rounded-full text-sm">Help</button>
+            <button className="px-3 py-1 border rounded-full text-sm">Customer Support</button>
           ) : (
             <div className="w-12" />
           )}
