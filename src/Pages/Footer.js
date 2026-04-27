@@ -14,36 +14,36 @@ const Footer = () => {
   return (
     <footer
       className="py-5 px-4"
-      style={{ backgroundColor: "#B2DBE7", color: "#1f2937" }} // New background color + dark text
+      style={{ backgroundColor: "#B2DBE7", color: "#1f2937" }}
     >
       {/* Helmet for SEO Meta Tags */}
       <Helmet>
-        <title>Credent Health - Healthcare Solutions & Medical Services</title>
+        <title>Elthium Health - Healthcare Solutions & Medical Services</title>
         <meta
           name="description"
-          content="Credent Health by Elthium Healthcare Pvt Ltd - One Platform, Total Wellness. Comprehensive healthcare solutions, medical services, and patient care."
+          content="Elthium Health by Elthium Health Pvt Ltd - One Platform, Total Wellness. Comprehensive healthcare solutions, medical services, and patient care."
         />
         <meta
           name="keywords"
-          content="credent health, healthcare solutions, medical services, patient care, health management, elthium healthcare, bangalore hospitals, medical records"
+          content="Elthium Health, healthcare solutions, medical services, patient care, health management, elthium health, bangalore hospitals, medical records"
         />
-        <meta name="author" content="Credent Health" />
+        <meta name="author" content="Elthium Health" />
         <link rel="canonical" href="https://credenthealth.com" />
 
         {/* Open Graph Tags */}
-        <meta property="og:title" content="Credent Health - Healthcare Solutions & Medical Services" />
+        <meta property="og:title" content="Elthium Health - Healthcare Solutions & Medical Services" />
         <meta
           property="og:description"
-          content="One Platform, Total Wellness - Comprehensive healthcare solutions and medical services by Credent Health."
+          content="One Platform, Total Wellness - Comprehensive healthcare solutions and medical services by Elthium Health."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://credenthealth.com" />
         <meta property="og:image" content="https://credenthealth.com/logo.png" />
-        <meta property="og:site_name" content="Credent Health" />
+        <meta property="og:site_name" content="Elthium Health" />
 
         {/* Twitter Card Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Credent Health - Healthcare Solutions" />
+        <meta name="twitter:title" content="Elthium Health - Healthcare Solutions" />
         <meta name="twitter:description" content="One Platform, Total Wellness - Your trusted healthcare partner." />
         <meta name="twitter:image" content="https://credenthealth.com/logo.png" />
       </Helmet>
@@ -55,12 +55,12 @@ const Footer = () => {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "MedicalOrganization",
-            name: "Credent Health",
-            alternateName: "Credent Health by Elthium Healthcare Pvt Ltd",
+            name: "Elthium Health",
+            alternateName: "Elthium Health by Elthium Healthcare Pvt Ltd",
             url: "https://credenthealth.com",
             logo: "https://credenthealth.com/logo.png",
             description:
-              "Credent Health - One Platform, Total Wellness. Comprehensive healthcare solutions and medical services.",
+              "Elthium Health - One Platform, Total Wellness. Comprehensive healthcare solutions and medical services.",
             address: {
               "@type": "PostalAddress",
               streetAddress:
@@ -95,14 +95,14 @@ const Footer = () => {
             <h3 className="d-flex align-items-center mb-3" style={{ color: "#111827" }}>
               <img
                 src="/logo.png"
-                alt="Credent Health Logo - Healthcare Solutions"
+                alt="Elthium Health Logo - Healthcare Solutions"
                 className="img-fluid me-2"
                 style={{ width: "50px", height: "50px" }}
               />
-              Credent Health
+              Elthium Health
             </h3>
             <p className="mb-3" style={{ color: "#1f2937" }}>
-              <strong>Credent Health by Elthium Healthcare Pvt Ltd</strong> -
+              <strong>Elthium Healthcare Pvt Ltd.</strong> -
               Your trusted partner for comprehensive healthcare solutions.
               One Platform, Total Wellness - Offering medical services,
               health management, and patient care services.
@@ -112,45 +112,45 @@ const Footer = () => {
               <a
                 href="https://www.facebook.com/credenthealth"
                 style={{ color: "#1f2937" }}
-                aria-label="Follow Credent Health on Facebook"
+                aria-label="Follow Elthium Health on Facebook"
               >
                 <FaFacebook size={20} />
               </a>
               <a
                 href="https://www.twitter.com/credenthealth"
                 style={{ color: "#1f2937" }}
-                aria-label="Follow Credent Health on Twitter"
+                aria-label="Follow Elthium Health on Twitter"
               >
                 <FaTwitter size={20} />
               </a>
               <a
                 href="https://www.instagram.com/credenthealth"
                 style={{ color: "#1f2937" }}
-                aria-label="Follow Credent Health on Instagram"
+                aria-label="Follow Elthium Health on Instagram"
               >
                 <FaInstagram size={20} />
               </a>
               <a
                 href="https://www.linkedin.com/company/credenthealth"
                 style={{ color: "#1f2937" }}
-                aria-label="Follow Credent Health on LinkedIn"
+                aria-label="Follow Elthium Health on LinkedIn"
               >
                 <FaLinkedin size={20} />
               </a>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Links - Explore */}
           <div className="col-6 col-md-4 col-lg-2">
-            <h5 className="mb-3" style={{ color: "#111827" }}>Explore</h5>
+            <h5 className="mb-3 mt-3 font-bold" style={{ color: "#111827" }}>Explore</h5>
             <ul className="list-unstyled">
               <li className="mb-2">
-                <a href="/home" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Home">
+                <a href="/home" className="text-decoration-none" style={{ color: "#1f2937" }} title="Elthium Health Home">
                   Home
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/profile" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Profile">
+                <a href="/profile" className="text-decoration-none" style={{ color: "#1f2937" }} title="Elthium Health Profile">
                   Profile
                 </a>
               </li>
@@ -159,50 +159,50 @@ const Footer = () => {
                   href="/medicalrecord"
                   className="text-decoration-none"
                   style={{ color: "#1f2937" }}
-                  title="Credent Health Medical Records"
+                  title="Elthium Health Medical Records"
                 >
                   Medical Records
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/family" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Family Members">
+                <a href="/family" className="text-decoration-none" style={{ color: "#1f2937" }} title="Elthium Health Family Members">
                   Family Members
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Features */}
+          {/* Wellness Services */}
           <div className="col-6 col-md-4 col-lg-3">
-            <h5 className="mb-3" style={{ color: "#111827" }}>Wellness Services</h5>
+            <h5 className="mb-3 mt-3 font-bold" style={{ color: "#111827" }}>Wellness Services</h5>
             <ul className="list-unstyled">
               <li className="mb-2">
                 <a
                   href="/mybookings"
                   className="text-decoration-none"
                   style={{ color: "#1f2937" }}
-                  title="Credent Health Bookings"
+                  title="Elthium Health Bookings"
                 >
                   My Bookings
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/mybookings" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Cart">
+                <a href="/mybookings" className="text-decoration-none" style={{ color: "#1f2937" }} title="Elthium Health Cart">
                   My Orders
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/wallet" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Wallet">
+                <a href="/wallet" className="text-decoration-none" style={{ color: "#1f2937" }} title="Elthium Health Wallet">
                   Wallet
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/chat" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Chat">
-                  Care Chat
+                <a href="/chat" className="text-decoration-none" style={{ color: "#1f2937" }} title="Elthium Health Chat">
+                  Chat
                 </a>
               </li>
               <li className="mb-2">
-                <a href="/help" className="text-decoration-none" style={{ color: "#1f2937" }} title="Credent Health Help">
+                <a href="/help" className="text-decoration-none" style={{ color: "#1f2937" }} title="Elthium Health Help">
                   Help & Support
                 </a>
               </li>
@@ -211,7 +211,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div className="col-12 col-md-4 col-lg-3">
-            <h5 className="mb-3" style={{ color: "#111827" }}>Get in touch</h5>
+            <h5 className="mb-3 mt-3 font-bold" style={{ color: "#111827" }}>Get in touch</h5>
             <ul className="list-unstyled">
               <li className="d-flex align-items-start mb-2" style={{ color: "#1f2937" }}>
                 <FaMapMarkerAlt className="me-2 mt-1 flex-shrink-0" />
@@ -242,7 +242,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
           <p className="mb-2 mb-md-0 text-center text-md-start" style={{ color: "#1f2937" }}>
-            &copy; 2025 <strong>Credent Health</strong> - Preventive Healthcare Solutions & Medical Services.
+            &copy; 2025 <strong>Elthium Health</strong> - Preventive Healthcare Solutions & Medical Services.
           </p>
 
           {/* Privacy & Terms Links */}
@@ -251,7 +251,7 @@ const Footer = () => {
               href="/privacyandpolicy"
               className="text-decoration-none"
               style={{ color: "#1f2937" }}
-              title="Credent Health Privacy Policy"
+              title="Elthium Health Privacy Policy"
             >
               Privacy Policy
             </a>
@@ -259,7 +259,7 @@ const Footer = () => {
               href="/termsandconditions"
               className="text-decoration-none"
               style={{ color: "#1f2937" }}
-              title="Credent Health Terms & Conditions"
+              title="Elthium Health Terms & Conditions"
             >
               Terms & Conditions
             </a>

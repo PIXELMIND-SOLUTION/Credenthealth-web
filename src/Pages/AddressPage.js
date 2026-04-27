@@ -158,9 +158,9 @@ const AddressPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <Helmet>
-        <title>Address Management | Credent Health</title>
-        <meta name="description" content="Manage your addresses for Credent Health account" />
-        <meta name="keywords" content="address, management, credent health, location" />
+        <title>Address Management | Elthium Health</title>
+        <meta name="description" content="Manage your addresses for Elthium Health account" />
+        <meta name="keywords" content="address, management, Elthium Health, location" />
       </Helmet>
       
       <Navbar />

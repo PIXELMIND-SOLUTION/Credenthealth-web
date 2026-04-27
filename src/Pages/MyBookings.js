@@ -1179,19 +1179,17 @@ const MyBookings = () => {
 
               {renderBookingDetails(selectedBooking)}
 
-              {/* Buttons - Only show if booking is not cancelled */}
+              {/* ✅ MODIFIED BUTTONS SECTION: Hide both buttons if status is "Confirmed" */}
               <div className="mt-6 space-y-2">
-                {selectedBooking.status !== "Cancelled" && (
+                {selectedBooking.status !== "Cancelled" && selectedBooking.status !== "Confirmed" && (
                   <>
-                    {/* ✅ Reschedule button only if status is NOT "Confirmed" */}
-                    {selectedBooking.status !== "Confirmed" && (
-                      <button
-                        onClick={() => handleRescheduleClick(selectedBooking)}
-                        className="w-full border border-green-600 text-green-600 py-2 rounded-md text-sm font-medium hover:bg-green-50"
-                      >
-                        Reschedule Booking
-                      </button>
-                    )}
+                    {/* Reschedule button only if status is NOT "Confirmed" (already handled by outer condition) */}
+                    <button
+                      onClick={() => handleRescheduleClick(selectedBooking)}
+                      className="w-full border border-green-600 text-green-600 py-2 rounded-md text-sm font-medium hover:bg-green-50"
+                    >
+                      Reschedule Booking
+                    </button>
                     <button
                       onClick={() => setShowCancelConfirm(true)}
                       className="w-full border border-red-600 text-red-600 py-2 rounded-md text-sm font-medium hover:bg-red-50"

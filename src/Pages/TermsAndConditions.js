@@ -12,12 +12,12 @@ const TermsandConditions = () => {
             <div className="col-12 col-md-10 col-lg-8">
 
               <h1 className="mb-5 text-center text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">
-                Terms and Conditions - Credent Health
+                Terms and Conditions - Elthium Health
               </h1>
 
               <p className="mb-6 text-gray-600">
                 These Terms and Conditions ("Terms") govern your use of the{" "}
-                <strong>Credent Health</strong> application ("App"). By accessing or using the App, you agree to comply with
+                <strong>Elthium Health</strong> application ("App"). By accessing or using the App, you agree to comply with
                 and be bound by these Terms.
               </p>
 
@@ -57,7 +57,7 @@ const TermsandConditions = () => {
               <div className="mb-6">
                 <h4 className="mb-2 text-lg sm:text-xl font-semibold text-gray-700">5. Content Ownership</h4>
                 <p className="text-gray-600">
-                  You retain rights over the health records, prescriptions, and data you upload. By using the App, you grant Credent Health limited rights to use this data to provide services.
+                  You retain rights over the health records, prescriptions, and data you upload. By using the App, you grant Elthium Health limited rights to use this data to provide services.
                 </p>
               </div>
 
@@ -80,7 +80,7 @@ const TermsandConditions = () => {
               <div className="mb-6">
                 <h4 className="mb-2 text-lg sm:text-xl font-semibold text-gray-700">8. Limitation of Liability</h4>
                 <p className="text-gray-600">
-                  Credent Health shall not be liable for any indirect, incidental, or consequential damages arising from use of the App. The App is provided "as is" without warranties of any kind.
+                  Elthium Health shall not be liable for any indirect, incidental, or consequential damages arising from use of the App. The App is provided "as is" without warranties of any kind.
                 </p>
               </div>
 

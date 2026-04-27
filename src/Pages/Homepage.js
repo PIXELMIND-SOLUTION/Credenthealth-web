@@ -25,9 +25,9 @@ const HomePage = () => {
       <>
         {/* SEO Head for loading state */}
         <Helmet>
-          <title>Credent Health - Healthcare Solutions & Medical Services</title>
-          <meta name="description" content="Credent Health - One Platform, Total Wellness. Your trusted healthcare partner for comprehensive medical services and health solutions." />
-          <meta name="keywords" content="credent health, healthcare, medical services, health solutions, wellness platform" />
+          <title>Elthium Health - Healthcare Solutions & Medical Services</title>
+          <meta name="description" content="Elthium Health - One Platform, Total Wellness. Your trusted healthcare partner for comprehensive medical services and health solutions." />
+          <meta name="keywords" content="Elthium Health, healthcare, medical services, health solutions, wellness platform" />
           <link rel="canonical" href="https://credenthealth.com" />
         </Helmet>
         
@@ -35,12 +35,12 @@ const HomePage = () => {
           {/* Logo */}
           <img
             src="/logo.png"
-            alt="Credent Health Logo"
+            alt="Elthium Health Logo"
             className="w-24 h-24 animate-bounce mb-4"
           />
 
           {/* App/Website Name */}
-          <h1 className="text-3xl font-bold text-gray-800">Credent Health</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Elthium Health</h1>
 
           {/* Tagline */}
           <p className="mt-2 text-gray-500 animate-pulse">
@@ -55,10 +55,10 @@ const HomePage = () => {
     <>
       {/* SEO Head for main content */}
       <Helmet>
-        <title>Credent Health | Healthcare Solutions & Medical Services</title>
-        <meta name="description" content="Credent Health offers comprehensive healthcare solutions, medical services, and innovative health management systems. One platform for total wellness and patient care." />
-        <meta name="keywords" content="credent health, healthcare solutions, medical services, health platform, wellness, patient care, medical technology" />
-        <meta property="og:title" content="Credent Health - Trusted Healthcare Solutions" />
+        <title>Elthium Health | Healthcare Solutions & Medical Services</title>
+        <meta name="description" content="Elthium Health offers comprehensive healthcare solutions, medical services, and innovative health management systems. One platform for total wellness and patient care." />
+        <meta name="keywords" content="Elthium Health, healthcare solutions, medical services, health platform, wellness, patient care, medical technology" />
+        <meta property="og:title" content="Elthium Health - Trusted Healthcare Solutions" />
         <meta property="og:description" content="One Platform, Total Wellness - Your complete healthcare solution provider" />
         <meta property="og:url" content="https://credenthealth.com" />
         <meta property="og:type" content="website" />
@@ -71,7 +71,7 @@ const HomePage = () => {
             {
               "@context": "https://schema.org",
               "@type": "MedicalOrganization",
-              "name": "Credent Health",
+              "name": "Elthium Health",
               "url": "https://credenthealth.com",
               "logo": "https://credenthealth.com/logo.png",
               "description": "One Platform, Total Wellness - Comprehensive healthcare solutions and medical services",
@@ -90,7 +90,7 @@ const HomePage = () => {
         <div className="flex flex-col min-h-screen pb-16 lg:pb-0">
           <div className="pt-[90px] bg-gray-50 flex-1">
             {/* Welcome Section with proper heading structure */}
-            <section aria-label="Welcome to Credent Health">
+            <section aria-label="Welcome to Elthium Health">
               <WelcomePage />
             </section>
             

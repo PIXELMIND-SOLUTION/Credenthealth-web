@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaArrowDown } from "react-icons/fa"; // ✅ Icon import
+import { FaArrowDown } from "react-icons/fa";
 import Navbar from "./Navbar";
 
 const WalletPage = () => {
@@ -36,6 +36,13 @@ const WalletPage = () => {
 
     fetchWalletData();
   }, [staffId]);
+
+  // Helper function to format the "from" field
+  const formatFromText = (fromText) => {
+    if (!fromText) return "-";
+    if (fromText === "Bulk Package Booking") return "Package Booking";
+    return fromText;
+  };
 
   if (loading)
     return (
@@ -77,22 +84,23 @@ const WalletPage = () => {
                 key={index}
                 className="bg-white border rounded-xl p-4 mb-3 shadow-sm flex items-start gap-3"
               >
-                {/* ✅ Left Icon */}
+                {/* Left Icon */}
                 <div className="flex-shrink-0">
                   <div className="w-10 h-10 flex items-center justify-center rounded-full bg-red-100">
                     <FaArrowDown className="text-red-500" />
                   </div>
                 </div>
 
-                {/* ✅ Right Content */}
+                {/* Right Content */}
                 <div className="flex-1">
                   <div className="flex justify-between items-center">
                     <span className="font-semibold text-gray-800">Payment</span>
                     <span
-                      className={`text-lg font-semibold ${transaction.type === "debit"
+                      className={`text-lg font-semibold ${
+                        transaction.type === "debit"
                           ? "text-red-500"
                           : "text-green-500"
-                        }`}
+                      }`}
                     >
                       {transaction.type === "debit" ? "-" : "+"}₹
                       {transaction.totalAmount}
@@ -102,7 +110,7 @@ const WalletPage = () => {
                     {transaction.time_ago}
                   </p>
                   <p className="text-sm text-gray-600">
-                    {transaction.from || "-"}
+                    {formatFromText(transaction.from)}
                   </p>
                 </div>
               </div>

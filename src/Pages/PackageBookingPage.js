@@ -406,7 +406,7 @@ const StaffPackageBookingPage = () => {
       key: "rzp_test_BxtRNvflG06PTV",
       amount: totalPrice * 100,
       currency: "INR",
-      name: "Credent Health",
+      name: "Elthium Health",
       description: `Package Booking: ${selectedPackage.packageName}`,
       handler: async function (response) {
         const razorpayTransactionId = response.razorpay_payment_id;

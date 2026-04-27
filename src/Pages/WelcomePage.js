@@ -36,9 +36,9 @@ const WelcomePage = () => {
           {/* Divider - now in middle because both sides are flex-1 */}
           <div className="w-px h-8 bg-gray-400 opacity-40"></div>
           {/* Right side - takes equal width, text right aligned */}
-          <div className="flex-1 text-right">
-            <h2 className="text-2xl font-semibold text-gray-800">{name}</h2>
-          </div>
+        <div className="flex-1 text-right pr-24">
+  <h2 className="text-2xl font-semibold text-gray-800">{name}</h2>
+</div>
         </div>
 
         {/* Mobile: stacked (greeting → name → message) */}

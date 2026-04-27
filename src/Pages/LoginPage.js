@@ -175,7 +175,7 @@ const LoginPage = () => {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-white">
         <img src="/logo.png" alt="App Logo" className="w-24 h-24 animate-bounce mb-4" />
-        <h1 className="text-3xl font-bold text-gray-800">Credent Health</h1>
+        <h1 className="text-3xl font-bold text-gray-800">Elthium Health</h1>
         <p className="mt-2 text-gray-500 animate-pulse">One Platform, Total Wellness</p>
       </div>
     );

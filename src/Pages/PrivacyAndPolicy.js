@@ -12,7 +12,7 @@ const PrivacyAndPolicy = () => {
             <div className="col-12 col-md-10 col-lg-8">
 
               <h1 className="mb-5 text-center text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">
-                Privacy Policy - Credent Health
+                Privacy Policy - Elthium Health
               </h1>
 
               {/* Section */}
@@ -104,7 +104,7 @@ const PrivacyAndPolicy = () => {
                   7. Children's Privacy
                 </h4>
                 <p className="text-gray-600">
-                  Credent Health is intended for users 16 years and older. We do not knowingly collect data from children under 16 without verified parental consent.
+                  Elthium Health is intended for users 16 years and older. We do not knowingly collect data from children under 16 without verified parental consent.
                 </p>
               </div>
 

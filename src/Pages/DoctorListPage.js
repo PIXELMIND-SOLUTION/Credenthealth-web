@@ -223,7 +223,7 @@ const DoctorListPage = () => {
       key: 'rzp_test_BxtRNvflG06PTV',
       amount: (amount - walletBalanceUsed) * 100,
       currency: "INR",
-      name: "Credent Health",
+      name: "Elthium Health",
       description: "Doctor Consultation Payment",
       handler: async function (response) {
         const razorpayTransactionId = response.razorpay_payment_id;

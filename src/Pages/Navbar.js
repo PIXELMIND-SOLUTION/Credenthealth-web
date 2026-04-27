@@ -128,7 +128,7 @@ const Navbar = () => {
                 className="w-12 h-12 object-contain"
               />
               {showText && (
-                <h3 className="font-bold text-xl text-gray-900">Credent Health</h3>
+                <h3 className="font-bold text-xl text-gray-900">Elthium Health</h3>
               )}
             </Link>
           </div>

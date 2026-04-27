@@ -910,7 +910,7 @@ const DiagnosticsPage = () => {
       key: "rzp_test_BxtRNvflG06PTV",
       amount: amountToPay * 100, // Razorpay expects amount in paise
       currency: "INR",
-      name: "Credent Health",
+      name: "Elthium Health",
       description: `Multiple Diagnostics Booking (${bookings.length} centers)`,
       handler: async function (response) {
         console.log("✅ Razorpay Payment Success:", response);

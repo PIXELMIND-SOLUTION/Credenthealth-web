@@ -97,9 +97,9 @@ const ChangePassword = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <Helmet>
-        <title>Change Password | Credent Health</title>
-        <meta name="description" content="Change your password for Credent Health account" />
-        <meta name="keywords" content="change password, security, credent health" />
+        <title>Change Password | Elthium Health</title>
+        <meta name="description" content="Change your password for Elthium Health account" />
+        <meta name="keywords" content="change password, security, Elthium Health" />
       </Helmet>
 
       {/* Navbar */}
