@@ -17,7 +17,7 @@ const CartPage = () => {
     if (staffId) {
       setLoading(true);
       axios
-        .get(`https://api.credenthealth.com/api/staff/mycart/${staffId}`)
+        .get(`https://api.elthiumhealth.com/api/staff/mycart/${staffId}`)
         .then((response) => {
           if (response.data.items && response.data.items.length > 0) {
             setCartItems(response.data.items);
@@ -41,7 +41,7 @@ const CartPage = () => {
   const handleDeleteItem = (itemId) => {
     if (staffId) {
       axios
-        .delete(`https://api.credenthealth.com/api/staff/deletecart/${staffId}`, {
+        .delete(`https://api.elthiumhealth.com/api/staff/deletecart/${staffId}`, {
           data: { itemId },
         })
         .then((response) => {

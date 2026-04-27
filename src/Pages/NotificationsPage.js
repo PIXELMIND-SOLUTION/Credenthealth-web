@@ -46,7 +46,7 @@ const NotificationsPage = () => {
   useEffect(() => {
     if (staffId) {
       axios
-        .get(`https://api.credenthealth.com/api/staff/notifications/${staffId}`)
+        .get(`https://api.elthiumhealth.com/api/staff/notifications/${staffId}`)
         .then((response) => {
           if (response.data.notifications) {
             setNotifications(response.data.notifications);

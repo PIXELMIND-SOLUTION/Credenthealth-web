@@ -41,7 +41,7 @@ const DoctorCategoryPage = () => {
   // Fetch doctor category data
   useEffect(() => {
     axios
-      .get("https://api.credenthealth.com/api/admin/getallcategory")
+      .get("https://api.elthiumhealth.com/api/admin/getallcategory")
       .then((response) => {
         setDoctorCategoryData(response.data);
         setFilteredData(response.data);
@@ -56,7 +56,7 @@ const DoctorCategoryPage = () => {
   // Fetch special category data
   useEffect(() => {
     axios
-      .get("https://api.credenthealth.com/api/admin/getspecialcategory")
+      .get("https://api.elthiumhealth.com/api/admin/getspecialcategory")
       .then((response) => {
         setSpecialCategoryData(response.data);
       })
@@ -175,7 +175,7 @@ const DoctorCategoryPage = () => {
                   >
                     <div className={`${bgColor} p-6 flex justify-center items-center h-32`}>
                       <img
-                        src={`https://api.credenthealth.com${item.image}`}
+                        src={`https://api.elthiumhealth.com${item.image}`}
                         alt={item.name}
                         className="w-16 h-16 object-contain group-hover:scale-110 transition duration-300"
                         onError={(e) => {

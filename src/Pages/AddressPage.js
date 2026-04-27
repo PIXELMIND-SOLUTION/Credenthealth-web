@@ -26,7 +26,7 @@ const AddressPage = () => {
   useEffect(() => {
     if (staffId) {
       axios
-        .get(`https://api.credenthealth.com/api/staff/getaddresses/${staffId}`)
+        .get(`https://api.elthiumhealth.com/api/staff/getaddresses/${staffId}`)
         .then((response) => {
           if (response.data && response.data.addresses) {
             setAddresses(response.data.addresses);
@@ -67,7 +67,7 @@ const AddressPage = () => {
       // Update address
       axios
         .put(
-          `https://api.credenthealth.com/api/staff/update-address/${staffId}/${selectedAddress._id}`,
+          `https://api.elthiumhealth.com/api/staff/update-address/${staffId}/${selectedAddress._id}`,
           newAddress
         )
         .then((response) => {
@@ -91,7 +91,7 @@ const AddressPage = () => {
       // Add new address
       axios
         .post(
-          `https://api.credenthealth.com/api/staff/create-address/${staffId}`,
+          `https://api.elthiumhealth.com/api/staff/create-address/${staffId}`,
           newAddress
         )
         .then((response) => {
@@ -143,7 +143,7 @@ const AddressPage = () => {
     if (window.confirm("Are you sure you want to delete this address?")) {
       axios
         .delete(
-          `https://api.credenthealth.com/api/staff/remove-address/${staffId}/${addressId}`
+          `https://api.elthiumhealth.com/api/staff/remove-address/${staffId}/${addressId}`
         )
         .then(() => {
           setAddresses(addresses.filter((a) => a._id !== addressId));

@@ -38,7 +38,7 @@ const MyBookings = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://api.credenthealth.com/api/staff/mybookings/${staffId}`
+        `https://api.elthiumhealth.com/api/staff/mybookings/${staffId}`
       );
       if (response.data.success) {
         setBookings(response.data.bookings);
@@ -104,7 +104,7 @@ const MyBookings = () => {
   const handleCancelBooking = async (booking) => {
     try {
       const response = await axios.put(
-        `https://api.credenthealth.com/api/staff/cancel-booking/${staffId}/${booking.bookingId || booking._id}`,
+        `https://api.elthiumhealth.com/api/staff/cancel-booking/${staffId}/${booking.bookingId || booking._id}`,
         { status: "Cancelled" }
       );
       if (response.data.booking) {
@@ -178,7 +178,7 @@ const MyBookings = () => {
         console.log(`📞 API CALL: date=${dateString}, type=${booking.serviceType}`);
         
         response = await axios.get(
-          `https://api.credenthealth.com/api/staff/diagnosticslots/${diagnosticId}?date=${dateString}&type=${booking.serviceType}`
+          `https://api.elthiumhealth.com/api/staff/diagnosticslots/${diagnosticId}?date=${dateString}&type=${booking.serviceType}`
         );
         
         if (response.data.slots && response.data.slots.length > 0) {
@@ -196,7 +196,7 @@ const MyBookings = () => {
       // Doctor Booking
       else if (booking.doctorId) {
         response = await axios.get(
-          `https://api.credenthealth.com/api/staff/doctor-slots/${booking.doctorId}?date=${dateString}&type=${booking.type}`
+          `https://api.elthiumhealth.com/api/staff/doctor-slots/${booking.doctorId}?date=${dateString}&type=${booking.type}`
         );
         if (response.data.slots && response.data.slots.length > 0) {
           setAvailableSlots(response.data.slots);
@@ -241,7 +241,7 @@ const MyBookings = () => {
       
       // Diagnostic Reschedule
       if (booking.diagnosticBookingId) {
-        endpoint = `https://api.credenthealth.com/api/staff/diagreschedule/${staffId}/${booking.bookingId || booking._id}`;
+        endpoint = `https://api.elthiumhealth.com/api/staff/diagreschedule/${staffId}/${booking.bookingId || booking._id}`;
         data = {
           newDate: dateString,
           newTimeSlot: selectedSlot,
@@ -250,7 +250,7 @@ const MyBookings = () => {
       } 
       // Doctor Reschedule
       else {
-        endpoint = `https://api.credenthealth.com/api/staff/reschedulebooking/${staffId}/${booking.bookingId || booking._id}`;
+        endpoint = `https://api.elthiumhealth.com/api/staff/reschedulebooking/${staffId}/${booking.bookingId || booking._id}`;
         data = {
           newDay: new Date(dateString).toLocaleDateString("en-US", {
             weekday: "long",

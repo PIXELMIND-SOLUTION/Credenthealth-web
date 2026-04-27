@@ -16,7 +16,7 @@ const MedicalRecordsPage = () => {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          `https://api.credenthealth.com/api/staff/mybookings/${staffId}`
+          `https://api.elthiumhealth.com/api/staff/mybookings/${staffId}`
         );
 
         if (response.data.success && response.data.bookings) {
@@ -50,7 +50,7 @@ const MedicalRecordsPage = () => {
     if (fileUrl.startsWith('http')) {
       return fileUrl;
     }
-    return `https://api.credenthealth.com${fileUrl}`;
+    return `https://api.elthiumhealth.com${fileUrl}`;
   };
 
   // Function to view file

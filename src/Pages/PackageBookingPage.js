@@ -125,7 +125,7 @@ const StaffPackageBookingPage = () => {
     }
     try {
       const response = await axios.get(
-        `https://api.credenthealth.com/api/admin/allcompaniespackdiagnostics/${companyId}/${staffId}`
+        `https://api.elthiumhealth.com/api/admin/allcompaniespackdiagnostics/${companyId}/${staffId}`
       );
       if (response.data && response.data.data) {
         const diagnosticsWithPackages = response.data.data.filter(
@@ -155,7 +155,7 @@ const StaffPackageBookingPage = () => {
 
   const fetchFamilyMembers = async () => {
     try {
-      const response = await axios.get(`https://api.credenthealth.com/api/staff/getallfamily/${staffId}`);
+      const response = await axios.get(`https://api.elthiumhealth.com/api/staff/getallfamily/${staffId}`);
       setFamilyMembers(response.data.family_members || []);
     } catch (error) {
       console.error("Error fetching family members:", error);
@@ -164,7 +164,7 @@ const StaffPackageBookingPage = () => {
 
   const fetchAddresses = async () => {
     try {
-      const response = await axios.get(`https://api.credenthealth.com/api/staff/getaddresses/${staffId}`);
+      const response = await axios.get(`https://api.elthiumhealth.com/api/staff/getaddresses/${staffId}`);
       setAddresses(response.data.addresses || []);
     } catch (error) {
       console.error("Error fetching addresses:", error);
@@ -174,7 +174,7 @@ const StaffPackageBookingPage = () => {
   const fetchWalletData = async () => {
     try {
       const response = await axios.get(
-        `https://api.credenthealth.com/api/staff/wallet/${staffId}`
+        `https://api.elthiumhealth.com/api/staff/wallet/${staffId}`
       );
       setWalletData(response.data);
       return response.data;
@@ -189,7 +189,7 @@ const StaffPackageBookingPage = () => {
     setSlotError("");
     try {
       const response = await axios.get(
-        `https://api.credenthealth.com/api/staff/diagnosticslots/${diagnosticId}?date=${date}&type=${type}`
+        `https://api.elthiumhealth.com/api/staff/diagnosticslots/${diagnosticId}?date=${date}&type=${type}`
       );
       if (response.data.slots && response.data.slots.length > 0) {
         setAvailableSlots(response.data.slots);
@@ -219,7 +219,7 @@ const StaffPackageBookingPage = () => {
         
         try {
           const response = await axios.get(
-            `https://api.credenthealth.com/api/staff/diagnosticslots/${diagnosticId}?date=${dateString}&type=${option}`
+            `https://api.elthiumhealth.com/api/staff/diagnosticslots/${diagnosticId}?date=${dateString}&type=${option}`
           );
           
           if (response.data.slots && response.data.slots.length > 0) {
@@ -277,7 +277,7 @@ const StaffPackageBookingPage = () => {
   const handleCreateAddress = async () => {
     try {
       const response = await axios.post(
-        `https://api.credenthealth.com/api/staff/create-address/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/create-address/${staffId}`,
         newAddress
       );
       if (response.data.success) {
@@ -294,7 +294,7 @@ const StaffPackageBookingPage = () => {
     if (!staffId) return;
     try {
       const response = await axios.post(
-        `https://api.credenthealth.com/api/staff/create-family/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/create-family/${staffId}`,
         newFamilyMember
       );
       alert("Family member added successfully");
@@ -341,7 +341,7 @@ const StaffPackageBookingPage = () => {
     if (availableBalance >= packagePrice) {
       // Use wallet for full payment
       const response = await axios.post(
-        `https://api.credenthealth.com/api/staff/package-bookings/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/package-bookings/${staffId}`,
         {
           familyMemberId: selectedFamilyMember,
           diagnosticId: selectedDiagnostic._id,
@@ -412,7 +412,7 @@ const StaffPackageBookingPage = () => {
         const razorpayTransactionId = response.razorpay_payment_id;
         try {
           const bookingResponse = await axios.post(
-            `https://api.credenthealth.com/api/staff/package-bookings/${staffId}`,
+            `https://api.elthiumhealth.com/api/staff/package-bookings/${staffId}`,
             {
               familyMemberId: selectedFamilyMember,
               diagnosticId: selectedDiagnostic._id,

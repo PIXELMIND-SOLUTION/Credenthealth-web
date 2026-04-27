@@ -24,7 +24,7 @@ const ScanAndXRayPage = () => {
     if (!staffId) return;
 
     axios
-      .get(`https://api.credenthealth.com/api/staff/mycart/${staffId}`)
+      .get(`https://api.elthiumhealth.com/api/staff/mycart/${staffId}`)
       .then((response) => {
         if (response.data.items) {
           setCartItems(response.data.items.map(item => item.itemId));
@@ -43,7 +43,7 @@ const ScanAndXRayPage = () => {
 
       try {
         const response = await axios.get(
-          `https://api.credenthealth.com/api/staff/getscans/${staffId}`
+          `https://api.elthiumhealth.com/api/staff/getscans/${staffId}`
         );
         
         console.log("Backend Scan Response:", response.data);
@@ -158,7 +158,7 @@ const ScanAndXRayPage = () => {
 
     try {
       const response = await axios.post(
-        `https://api.credenthealth.com/api/staff/addcart/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/addcart/${staffId}`,
         { 
           itemId: scan._id, 
           action: "inc",
@@ -203,7 +203,7 @@ const ScanAndXRayPage = () => {
 
     try {
       const response = await axios.post(
-        `https://api.credenthealth.com/api/staff/addcart/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/addcart/${staffId}`,
         { 
           itemId: scan._id, 
           action: "inc",
@@ -247,7 +247,7 @@ const ScanAndXRayPage = () => {
     if (!staffId) return;
     try {
       const response = await axios.delete(
-        `https://api.credenthealth.com/api/staff/deletecart/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/deletecart/${staffId}`,
         { data: { itemId: scanId } }
       );
       if (response.status === 200) {

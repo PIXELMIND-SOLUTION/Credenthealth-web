@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import Navbar from './Navbar';
 
 // Replace with your actual backend URL
-const SOCKET_URL = 'https://api.credenthealth.com';
+const SOCKET_URL = 'https://api.elthiumhealth.com';
 const socket = io(SOCKET_URL);
 
 const ChatPage = () => {
@@ -48,7 +48,7 @@ const ChatPage = () => {
 
       try {
         const response = await axios.get(
-          `https://api.credenthealth.com/api/staff/mybookings/${staffId}`
+          `https://api.elthiumhealth.com/api/staff/mybookings/${staffId}`
         );
 
         console.log('Doctors API Response:', response.data); // Add this for debugging
@@ -98,7 +98,7 @@ const ChatPage = () => {
     const fetchChatHistory = async () => {
       try {
         const response = await axios.get(
-          `https://api.credenthealth.com/api/staff/getchat/${staffId}/${doctorId}`
+          `https://api.elthiumhealth.com/api/staff/getchat/${staffId}/${doctorId}`
         );
 
         if (response.data.success) {
@@ -158,7 +158,7 @@ const ChatPage = () => {
 
       try {
         const response = await axios.post(
-          `https://api.credenthealth.com/api/staff/sendchat/${staffId}/${doctorId}`,
+          `https://api.elthiumhealth.com/api/staff/sendchat/${staffId}/${doctorId}`,
           formData,
           { headers: { 'Content-Type': 'multipart/form-data' } }
         );
@@ -178,7 +178,7 @@ const ChatPage = () => {
       try {
         // Send text message only
         const response = await axios.post(
-          `https://api.credenthealth.com/api/staff/sendchat/${staffId}/${doctorId}`,
+          `https://api.elthiumhealth.com/api/staff/sendchat/${staffId}/${doctorId}`,
           messageData
         );
 

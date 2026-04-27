@@ -25,7 +25,7 @@ const PackagesPage = () => {
     const fetchPackages = async () => {
       try {
         const response = await axios.get(
-          `https://api.credenthealth.com/api/staff/stafftestpackages/${staffId}`
+          `https://api.elthiumhealth.com/api/staff/stafftestpackages/${staffId}`
         );
         
         if (response.data && response.data.myPackages) {

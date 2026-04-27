@@ -213,7 +213,7 @@ const DiagnosticsPage = () => {
   try {
     // ✅ New API with both companyId and staffId
     const response = await axios.get(
-      `https://api.credenthealth.com/api/admin/allcompaniesdiagnostics/${companyId}/${staffId}`
+      `https://api.elthiumhealth.com/api/admin/allcompaniesdiagnostics/${companyId}/${staffId}`
     );
     
     console.log("✅ API Response:", response.data);
@@ -518,7 +518,7 @@ const DiagnosticsPage = () => {
         
         const bookingPromises = bookings.map(booking => 
           axios.post(
-            `https://api.credenthealth.com/api/staff/create-bookings/${staffId}`,
+            `https://api.elthiumhealth.com/api/staff/create-bookings/${staffId}`,
             {
               familyMemberId: booking.familyMemberId,
               diagnosticId: booking.diagnostic._id,
@@ -607,7 +607,7 @@ const DiagnosticsPage = () => {
 
   const fetchFamilyMembers = async () => {
     try {
-      const response = await axios.get(`https://api.credenthealth.com/api/staff/getallfamily/${staffId}`);
+      const response = await axios.get(`https://api.elthiumhealth.com/api/staff/getallfamily/${staffId}`);
       setFamilyMembers(response.data.family_members || []);
     } catch (error) {
       console.error("Error fetching family members:", error);
@@ -616,7 +616,7 @@ const DiagnosticsPage = () => {
 
   const fetchAddresses = async () => {
     try {
-      const response = await axios.get(`https://api.credenthealth.com/api/staff/getaddresses/${staffId}`);
+      const response = await axios.get(`https://api.elthiumhealth.com/api/staff/getaddresses/${staffId}`);
       setAddresses(response.data.addresses || []);
     } catch (error) {
       console.error("Error fetching addresses:", error);
@@ -628,7 +628,7 @@ const DiagnosticsPage = () => {
     setSlotError("");
     try {
       const response = await axios.get(
-        `https://api.credenthealth.com/api/staff/diagnosticslots/${diagnosticId}?date=${date}&type=${type}`
+        `https://api.elthiumhealth.com/api/staff/diagnosticslots/${diagnosticId}?date=${date}&type=${type}`
       );
 
       if (response.data.slots && response.data.slots.length > 0) {
@@ -660,7 +660,7 @@ const DiagnosticsPage = () => {
         
         try {
           const response = await axios.get(
-            `https://api.credenthealth.com/api/staff/diagnosticslots/${diagnosticId}?date=${dateString}&type=${option}`
+            `https://api.elthiumhealth.com/api/staff/diagnosticslots/${diagnosticId}?date=${dateString}&type=${option}`
           );
           
           if (response.data.slots && response.data.slots.length > 0) {
@@ -759,7 +759,7 @@ const DiagnosticsPage = () => {
   const handleCreateAddress = async () => {
     try {
       const response = await axios.post(
-        `https://api.credenthealth.com/api/staff/create-address/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/create-address/${staffId}`,
         newAddress
       );
 
@@ -784,7 +784,7 @@ const DiagnosticsPage = () => {
     if (!staffId) return;
     try {
       const response = await axios.post(
-        `https://api.credenthealth.com/api/staff/create-family/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/create-family/${staffId}`,
         newFamilyMember
       );
 
@@ -829,7 +829,7 @@ const DiagnosticsPage = () => {
   const fetchWalletData = async () => {
     try {
       const response = await axios.get(
-        `https://api.credenthealth.com/api/staff/wallet/${staffId}`
+        `https://api.elthiumhealth.com/api/staff/wallet/${staffId}`
       );
       setWalletData(response.data);
       return response.data;
@@ -921,7 +921,7 @@ const DiagnosticsPage = () => {
           
           const bookingPromises = bookings.map(booking => 
             axios.post(
-              `https://api.credenthealth.com/api/staff/create-bookings/${staffId}`,
+              `https://api.elthiumhealth.com/api/staff/create-bookings/${staffId}`,
               {
                 familyMemberId: booking.familyMemberId,
                 diagnosticId: booking.diagnostic._id,

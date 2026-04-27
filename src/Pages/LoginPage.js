@@ -84,7 +84,7 @@ const LoginPage = () => {
       }
 
       const response = await axios.post(
-        "https://api.credenthealth.com/api/staff/login-staff",
+        "https://api.elthiumhealth.com/api/staff/login-staff",
         loginData,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -148,7 +148,7 @@ const LoginPage = () => {
 
     try {
       const response = await axios.post(
-        "https://api.credenthealth.com/api/staff/forgot-password",
+        "https://api.elthiumhealth.com/api/staff/forgot-password",
         { email: forgotEmail, newPassword },
         { headers: { "Content-Type": "application/json" } }
       );

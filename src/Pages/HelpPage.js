@@ -40,7 +40,7 @@ const HelpPage = () => {
       }
       formData.append('staffId', staffId);
 
-      const response = await axios.post('https://api.credenthealth.com/api/staff/support-ticket', formData, {
+      const response = await axios.post('https://api.elthiumhealth.com/api/staff/support-ticket', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

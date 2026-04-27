@@ -32,7 +32,7 @@ const Navbar = () => {
   useEffect(() => {
     if (staffId) {
       axios
-        .get(`https://api.credenthealth.com/api/staff/wallet/${staffId}`)
+        .get(`https://api.elthiumhealth.com/api/staff/wallet/${staffId}`)
         .then((response) => {
           setWalletBalance(response.data.wallet_balance);
         })
@@ -46,7 +46,7 @@ const Navbar = () => {
   useEffect(() => {
     if (staffId) {
       axios
-        .get(`https://api.credenthealth.com/api/staff/mycart/${staffId}`)
+        .get(`https://api.elthiumhealth.com/api/staff/mycart/${staffId}`)
         .then((response) => {
           if (response.data && response.data.items) {
             setCartCount(response.data.items.length);

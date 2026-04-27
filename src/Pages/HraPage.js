@@ -12,7 +12,7 @@ const HraPage = () => {
   const [error, setError] = useState("");
   const [backendMessage, setBackendMessage] = useState("");
 
-  const BASE_URL = "https://api.credenthealth.com";
+  const BASE_URL = "https://api.elthiumhealth.com";
   const staffId = localStorage.getItem("staffId");
   const gender = localStorage.getItem("gender"); // Get gender from localStorage
   const navigate = useNavigate();

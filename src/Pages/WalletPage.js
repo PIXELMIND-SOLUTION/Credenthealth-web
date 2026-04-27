@@ -20,7 +20,7 @@ const WalletPage = () => {
 
       try {
         const response = await axios.get(
-          `https://api.credenthealth.com/api/staff/wallet/${staffId}`
+          `https://api.elthiumhealth.com/api/staff/wallet/${staffId}`
         );
         if (response.data) {
           setWalletData(response.data);

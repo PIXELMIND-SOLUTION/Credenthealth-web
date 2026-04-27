@@ -68,7 +68,7 @@ const ChangePassword = () => {
 
     try {
       const response = await axios.put(
-        `https://api.credenthealth.com/api/staff/changepassword/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/changepassword/${staffId}`,
         {
           currentPassword: passwords.currentPassword,
           newPassword: passwords.newPassword

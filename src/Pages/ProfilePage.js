@@ -51,7 +51,7 @@ const ProfilePage = () => {
   const fetchStaffProfile = () => {
     if (staffId) {
       axios
-        .get(`https://api.credenthealth.com/api/staff/getprofile/${staffId}`)
+        .get(`https://api.elthiumhealth.com/api/staff/getprofile/${staffId}`)
         .then((res) => {
           console.log("Profile API Response:", res.data); // Debugging ke liye
           setStaff(res.data.staff);
@@ -107,7 +107,7 @@ const ProfilePage = () => {
 
     try {
       const response = await axios.put(
-        `https://api.credenthealth.com/api/staff/updateProfileImage/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/updateProfileImage/${staffId}`,
         formData,
         {
           headers: {
@@ -152,7 +152,7 @@ const ProfilePage = () => {
     }
     
     // Agar relative path hai toh base URL add karo
-    return `https://api.credenthealth.com${staff.profileImage}`;
+    return `https://api.elthiumhealth.com${staff.profileImage}`;
   };
 
   return (

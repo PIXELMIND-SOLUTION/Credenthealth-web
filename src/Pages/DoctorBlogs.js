@@ -13,7 +13,7 @@ const DoctorBlogsPage = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get('https://api.credenthealth.com/api/doctor/blogs');
+        const response = await axios.get('https://api.elthiumhealth.com/api/doctor/blogs');
         if (response.data.blogs) {
           setBlogs(response.data.blogs); // Set the blogs state with the fetched data
         } else {

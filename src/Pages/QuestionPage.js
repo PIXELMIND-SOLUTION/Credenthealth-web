@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 
-const BASE_URL = "https://api.credenthealth.com";
+const BASE_URL = "https://api.elthiumhealth.com";
 
 const QuestionsPage = () => {
   const [loading, setLoading] = useState(false);

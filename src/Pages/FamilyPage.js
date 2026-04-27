@@ -33,7 +33,7 @@ const FamilyPage = () => {
     if (staffId) {
       // Fetch all family members
       axios
-        .get(`https://api.credenthealth.com/api/staff/getallfamily/${staffId}`)
+        .get(`https://api.elthiumhealth.com/api/staff/getallfamily/${staffId}`)
         .then((response) => {
           setFamilyMembers(response.data.family_members);
           setLoading(false);
@@ -101,7 +101,7 @@ const FamilyPage = () => {
       // Update family member API call
       axios
         .put(
-          `https://api.credenthealth.com/api/staff/updatefamily/${staffId}/${selectedMember._id}`,
+          `https://api.elthiumhealth.com/api/staff/updatefamily/${staffId}/${selectedMember._id}`,
           newFamilyMember
         )
         .then((response) => {
@@ -118,7 +118,7 @@ const FamilyPage = () => {
       // Add new family member API call
       axios
         .post(
-          `https://api.credenthealth.com/api/staff/create-family/${staffId}`,
+          `https://api.elthiumhealth.com/api/staff/create-family/${staffId}`,
           newFamilyMember
         )
         .then((response) => {
@@ -174,7 +174,7 @@ const FamilyPage = () => {
   const handleRemove = (memberId) => {
     axios
       .delete(
-        `https://api.credenthealth.com/api/staff/removefamily/${staffId}/${memberId}`
+        `https://api.elthiumhealth.com/api/staff/removefamily/${staffId}/${memberId}`
       )
       .then(() => {
         setFamilyMembers(

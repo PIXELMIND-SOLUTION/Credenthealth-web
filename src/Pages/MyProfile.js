@@ -34,7 +34,7 @@ const MyProfile = () => {
 
   const fetchStaffProfile = () => {
     axios
-      .get(`https://api.credenthealth.com/api/staff/staffprofile/${staffId}`)
+      .get(`https://api.elthiumhealth.com/api/staff/staffprofile/${staffId}`)
       .then((response) => {
         if (response.data.staff) {
           setStaffProfile(response.data.staff);
@@ -77,7 +77,7 @@ const MyProfile = () => {
     setSaving(true);
     try {
       const response = await axios.put(
-        `https://api.credenthealth.com/api/staff/editprofile/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/editprofile/${staffId}`,
         editForm
       );
 

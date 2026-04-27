@@ -12,7 +12,7 @@ const RecentActivityPage = () => {
   const fetchDoctorBooking = async () => {
     try {
       const res = await axios.get(
-        `https://api.credenthealth.com/api/staff/recent-doctor-booking/${staffId}`
+        `https://api.elthiumhealth.com/api/staff/recent-doctor-booking/${staffId}`
       );
       setDoctorBooking(res.data.booking || null);
     } catch (err) {
@@ -24,7 +24,7 @@ const RecentActivityPage = () => {
   const fetchPackageBooking = async () => {
     try {
       const res = await axios.get(
-        `https://api.credenthealth.com/api/staff/recent-package-booking/${staffId}`
+        `https://api.elthiumhealth.com/api/staff/recent-package-booking/${staffId}`
       );
       setPackageBooking(res.data.package || null);
     } catch (err) {
@@ -67,7 +67,7 @@ const RecentActivityPage = () => {
               <>
                 {doctorBooking.doctorId && doctorBooking.doctorId.image ? (
                   <img
-                    src={`https://api.credenthealth.com${doctorBooking.doctorId.image}`}
+                    src={`https://api.elthiumhealth.com${doctorBooking.doctorId.image}`}
                     alt="Doctor"
                     className="w-16 h-16 rounded-full object-cover border"
                     onError={(e) =>

@@ -24,7 +24,7 @@ const DeleteAccountPage = () => {
 
     try {
       await axios.delete(
-        `https://api.credenthealth.com/api/staff/deleteaccount/${staffId}`
+        `https://api.elthiumhealth.com/api/staff/deleteaccount/${staffId}`
       );
       alert("Your account has been deleted successfully.");
       localStorage.clear();

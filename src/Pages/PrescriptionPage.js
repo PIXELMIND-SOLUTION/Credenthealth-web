@@ -35,7 +35,7 @@ const PrescriptionPage = () => {
 
     try {
       const response = await axios.put(
-        `https://api.credenthealth.com/api/staff/userupload/${staffId}`,
+        `https://api.elthiumhealth.com/api/staff/userupload/${staffId}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

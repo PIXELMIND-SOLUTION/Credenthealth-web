@@ -7,13 +7,13 @@ const BannerCarousel = () => {
   const [error, setError] = useState(null);
   const [imageErrors, setImageErrors] = useState({});
 
-  const BASE_URL = 'https://api.credenthealth.com/';
+  const BASE_URL = 'https://api.elthiumhealth.com/';
 
   useEffect(() => {
     const fetchBanners = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://api.credenthealth.com/api/admin/getbanners');
+        const response = await fetch('https://api.elthiumhealth.com/api/admin/getbanners');
         const data = await response.json();
 
         if (data.message === "Banner images fetched successfully") {

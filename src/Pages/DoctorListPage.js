@@ -72,7 +72,7 @@ const DoctorListPage = () => {
   // Fetch doctors based on the category
   useEffect(() => {
     axios
-      .get(`https://api.credenthealth.com/api/admin/getdoctors?categories=${categoryName}`)
+      .get(`https://api.elthiumhealth.com/api/admin/getdoctors?categories=${categoryName}`)
       .then((response) => {
         const allDoctors = response.data;
         setDoctors(allDoctors);
@@ -101,7 +101,7 @@ const DoctorListPage = () => {
   useEffect(() => {
     if (staffId) {
       axios
-        .get(`https://api.credenthealth.com/api/staff/getallfamily/${staffId}`)
+        .get(`https://api.elthiumhealth.com/api/staff/getallfamily/${staffId}`)
         .then((response) => {
           setFamilyMembers(response.data.family_members);
         })
@@ -115,7 +115,7 @@ const DoctorListPage = () => {
   const fetchWalletData = async () => {
     console.log("Fetching wallet data for staffId:", staffId);
     try {
-      const response = await axios.get(`https://api.credenthealth.com/api/staff/wallet/${staffId}`);
+      const response = await axios.get(`https://api.elthiumhealth.com/api/staff/wallet/${staffId}`);
       console.log("Wallet Data Response:", response.data);
       setWalletData(response.data);
       return response.data;
@@ -144,7 +144,7 @@ const DoctorListPage = () => {
     setLoadingSlots(true);
     try {
       const response = await axios.get(
-        `https://api.credenthealth.com/api/staff/doctor-slots/${doctorId}?date=${date}&type=${consultationType}`
+        `https://api.elthiumhealth.com/api/staff/doctor-slots/${doctorId}?date=${date}&type=${consultationType}`
       );
 
       if (response.data.slots && response.data.slots.length > 0) {
@@ -189,7 +189,7 @@ const DoctorListPage = () => {
       // Check if wallet has sufficient balance
       if (availableDoctorBalance >= consultationFee) {
         const response = await axios.post(
-          `https://api.credenthealth.com/api/staff/consultationbooking/${staffId}`,
+          `https://api.elthiumhealth.com/api/staff/consultationbooking/${staffId}`,
           {
             doctorId: selectedDoctor._id,
             date: selectedDate,
@@ -230,7 +230,7 @@ const DoctorListPage = () => {
 
         try {
           const bookingResponse = await axios.post(
-            `https://api.credenthealth.com/api/staff/consultationbooking/${staffId}`,
+            `https://api.elthiumhealth.com/api/staff/consultationbooking/${staffId}`,
             {
               doctorId: selectedDoctor._id,
               date: selectedDate,
@@ -309,7 +309,7 @@ const DoctorListPage = () => {
   const handleAddFamilyMember = () => {
     if (!staffId) return;
     axios
-      .post(`https://api.credenthealth.com/api/staff/create-family/${staffId}`, newFamilyMember)
+      .post(`https://api.elthiumhealth.com/api/staff/create-family/${staffId}`, newFamilyMember)
       .then((response) => {
         alert("Family member added successfully");
         setFamilyMembers([...familyMembers, response.data.family_member]);
@@ -464,7 +464,7 @@ const DoctorListPage = () => {
                     {/* Image + Info */}
                     <div className="flex items-center space-x-4">
                       <img
-                        src={`https://api.credenthealth.com${doctor.image}`}
+                        src={`https://api.elthiumhealth.com${doctor.image}`}
                         alt={doctor.name}
                         className="w-20 h-20 object-cover rounded-square"
                       />
@@ -520,7 +520,7 @@ const DoctorListPage = () => {
                 {/* Doctor Info */}
                 <div className="flex items-center gap-4 p-4 rounded-lg shadow-sm border mb-4 mt-6">
                   <img
-                    src={`https://api.credenthealth.com${selectedDoctor.image}` || "https://via.placeholder.com/60"}
+                    src={`https://api.elthiumhealth.com${selectedDoctor.image}` || "https://via.placeholder.com/60"}
                     alt={selectedDoctor.name}
                     className="w-16 h-16 rounded-lg object-cover"
                   />
