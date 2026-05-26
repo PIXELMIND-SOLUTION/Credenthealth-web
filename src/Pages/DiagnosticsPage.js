@@ -1000,7 +1000,7 @@ const DiagnosticsPage = () => {
     if (fromCart && cartItems.length > 0) {
       return `Diagnostic Centers for Your Cart Items`;
     } else {
-      return "Your Company's Diagnostic Centers";
+      return "Choose your centre";  //Your Company's Diagnostic Centers
     }
   };
 
@@ -1010,7 +1010,7 @@ const DiagnosticsPage = () => {
       const totalCount = diagnostics.length;
       return `${matchingCount} out of ${totalCount} diagnostics have your cart items`;
     } else {
-      return "Select diagnostic centers from your company's approved list";
+      return "Select the diagnostic centre from the list.";  //Select diagnostic centers from your company's approved list
     }
   };
 
