@@ -163,7 +163,7 @@ const DoctorBlogsPage = () => {
                         group/button
                       "
                     >
-                      Read Full Article
+                      View More
 
                       <ArrowRight
                         size={18}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import {
   FaFacebook,
@@ -11,6 +11,12 @@ import {
 } from "react-icons/fa";
 
 const Footer = () => {
+
+  const [expanded, setExpanded] = useState(false);
+
+  const address =
+    "ELTHIUM HEALTHCARE PVT LTD, MSR NORTH TOWER, 16TH FLOOR, DR. PUNEETH RAJ KUMAR ROAD, MS RAMAIAH NORTH CITY, MANAYATA, 560045 BENGALURU, KARNATAKA, INDIA";
+
   return (
     <footer
       className="py-5 px-4"
@@ -213,13 +219,33 @@ const Footer = () => {
           <div className="col-12 col-md-4 col-lg-3">
             <h5 className="mb-3 mt-3 font-bold" style={{ color: "#111827" }}>Get in touch</h5>
             <ul className="list-unstyled">
-              <li className="d-flex align-items-start mb-2" style={{ color: "#1f2937" }}>
+              <li
+                className="d-flex align-items-start mb-2"
+                style={{ color: "#1f2937" }}
+              >
+
                 <FaMapMarkerAlt className="me-2 mt-1 flex-shrink-0" />
-                <span>
-                  ELTHIUM HEALTHCARE PVT LTD, MSR NORTH TOWER, 16TH FLOOR,
-                  DR. PUNEETH RAJ KUMAR ROAD, MS RAMAIAH NORTH CITY,
-                  MANAYATA, 560045 BENGALURU, KARNATAKA, INDIA
-                </span>
+
+                <div>
+
+                  <span>
+                    {expanded
+                      ? address
+                      : `${address.substring(0, 85)}...`}
+                  </span>
+
+                  <button
+                    onClick={() => setExpanded(!expanded)}
+                    className="
+            border-0 bg-transparent
+            text-primary fw-semibold ms-2 p-0
+          "
+                  >
+                    {expanded ? "View Less" : "View More"}
+                  </button>
+
+                </div>
+
               </li>
               <li className="d-flex align-items-center mb-2">
                 <FaPhone className="me-2 flex-shrink-0" />
