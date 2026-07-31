@@ -43,7 +43,7 @@ const DiagnosticsPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [fromCart, setFromCart] = useState(false);
   const [cartDiagnosticIds, setCartDiagnosticIds] = useState([]);
-  
+
   const [newFamilyMember, setNewFamilyMember] = useState({
     fullName: "",
     mobileNumber: "",
@@ -58,7 +58,7 @@ const DiagnosticsPage = () => {
     BMI: ""
   });
   const [showFamilyForm, setShowFamilyForm] = useState(false);
-  
+
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedDetailsType, setSelectedDetailsType] = useState("");
   const [detailsLoading, setDetailsLoading] = useState(false);
@@ -119,7 +119,7 @@ const DiagnosticsPage = () => {
 
   useEffect(() => {
     console.log("Location state:", location.state);
-    
+
     if (location.state) {
       if (location.state.cartItems) {
         setFromCart(true);
@@ -129,9 +129,9 @@ const DiagnosticsPage = () => {
         setCartDiagnosticIds(location.state.diagnosticIds);
       }
     }
-    
+
     fetchCompanyDiagnostics();
-    
+
     if (staffId) {
       fetchWalletData();
       fetchFamilyMembers();
@@ -146,174 +146,174 @@ const DiagnosticsPage = () => {
       setFilteredDiagnostics(allDiagnostics);
       return;
     }
-    
+
     console.log("Finding matching diagnostics for cart items:", cartItems);
-    
+
     const cartItemIds = cartItems.map(item => item.itemId);
     console.log("Cart Item IDs:", cartItemIds);
-    
+
     const matchingCenters = [];
-    
+
     allDiagnostics.forEach(diagnostic => {
       let hasMatchingItems = false;
-      
+
       // Check tests
       if (diagnostic.tests && Array.isArray(diagnostic.tests)) {
-        hasMatchingItems = diagnostic.tests.some(test => 
+        hasMatchingItems = diagnostic.tests.some(test =>
           cartItemIds.includes(test._id)
         );
       }
-      
+
       // Check scans
       if (!hasMatchingItems && diagnostic.scans && Array.isArray(diagnostic.scans)) {
-        hasMatchingItems = diagnostic.scans.some(scan => 
+        hasMatchingItems = diagnostic.scans.some(scan =>
           cartItemIds.includes(scan._id)
         );
       }
-      
+
       // Check packages
       if (!hasMatchingItems && diagnostic.packages && Array.isArray(diagnostic.packages)) {
-        hasMatchingItems = diagnostic.packages.some(pkg => 
+        hasMatchingItems = diagnostic.packages.some(pkg =>
           cartItemIds.includes(pkg._id)
         );
       }
-      
+
       // If has matching items, include in filtered list
       if (hasMatchingItems) {
         matchingCenters.push(diagnostic);
       }
     });
-    
+
     console.log("Matching diagnostics found:", matchingCenters.length);
     setFilteredDiagnostics(matchingCenters);
   };
 
- const fetchCompanyDiagnostics = async () => {
-  setLoading(true);
-  setError("");
-  
-  if (!companyId) {
-    setError("Company ID not found. Please login again.");
-    setLoading(false);
-    return;
-  }
-  
-  // ✅ Staff ID get karein
-  const staffId = localStorage.getItem("staffId");
-  
-  // ✅ Dono IDs required hain
-  if (!staffId) {
-    setError("Staff ID not found. Please login again.");
-    setLoading(false);
-    return;
-  }
-  
-  console.log("🔍 API Call Parameters:", { companyId, staffId });
-  
-  try {
-    // ✅ New API with both companyId and staffId
-    const response = await axios.get(
-      `https://api.elthiumhealth.com/api/admin/allcompaniesdiagnostics/${companyId}/${staffId}`
-    );
-    
-    console.log("✅ API Response:", response.data);
-    
-    if (response.data && response.data.data) {
-      const transformedDiagnostics = response.data.data.map(diagnostic => {
-        let tests = [];
-        let packages = [];
-        let scans = [];
-        
-        if (Array.isArray(diagnostic.tests)) {
-          tests = diagnostic.tests;
-        }
-        
-        if (Array.isArray(diagnostic.packages)) {
-          packages = diagnostic.packages;
-        }
-        
-        if (Array.isArray(diagnostic.scans)) {
-          scans = diagnostic.scans;
-        }
-        
-        return {
-          ...diagnostic,
-          tests: tests,
-          packages: packages,
-          scans: scans,
-          matchesCart: diagnostic.matchesCart || false,
-          matchedItemCount: diagnostic.matchedItemCount || 0
-        };
-      });
-      
-      setDiagnostics(transformedDiagnostics);
-      findMatchingDiagnostics(transformedDiagnostics);
-      
-      // ✅ Cart info display karein
-      if (response.data.cartInfo) {
-        console.log("🛒 Cart Information:", response.data.cartInfo);
-        
-        // Optional: User ko cart info show karein
-        if (response.data.cartInfo.hasCart) {
-          console.log(`User ke cart mein ${response.data.cartInfo.cartItemCount} items hain`);
-        }
-      }
-    } else {
-      setDiagnostics([]);
-      setFilteredDiagnostics([]);
-      setError("No diagnostics found for your company");
+  const fetchCompanyDiagnostics = async () => {
+    setLoading(true);
+    setError("");
+
+    if (!companyId) {
+      setError("Company ID not found. Please login again.");
+      setLoading(false);
+      return;
     }
-    setLoading(false);
-  } catch (err) {
-    console.error("❌ Error fetching company diagnostics:", err);
-    
-    // ✅ Detailed error logging
-    if (err.response) {
-      console.error("Error Status:", err.response.status);
-      console.error("Error Data:", err.response.data);
-      console.error("Error Headers:", err.response.headers);
-      
-      // ✅ Specific error messages
-      if (err.response.status === 400) {
-        if (err.response.data?.message?.includes("staffId")) {
-          setError("Staff ID is required. Please login again.");
-        } else if (err.response.data?.message?.includes("companyId")) {
-          setError("Company ID is required. Please login again.");
-        } else {
-          setError(err.response.data?.message || "Bad request");
+
+    // ✅ Staff ID get karein
+    const staffId = localStorage.getItem("staffId");
+
+    // ✅ Dono IDs required hain
+    if (!staffId) {
+      setError("Staff ID not found. Please login again.");
+      setLoading(false);
+      return;
+    }
+
+    console.log("🔍 API Call Parameters:", { companyId, staffId });
+
+    try {
+      // ✅ New API with both companyId and staffId
+      const response = await axios.get(
+        `https://api.elthiumhealth.com/api/admin/allcompaniesdiagnostics/${companyId}/${staffId}`
+      );
+
+      console.log("✅ API Response:", response.data);
+
+      if (response.data && response.data.data) {
+        const transformedDiagnostics = response.data.data.map(diagnostic => {
+          let tests = [];
+          let packages = [];
+          let scans = [];
+
+          if (Array.isArray(diagnostic.tests)) {
+            tests = diagnostic.tests;
+          }
+
+          if (Array.isArray(diagnostic.packages)) {
+            packages = diagnostic.packages;
+          }
+
+          if (Array.isArray(diagnostic.scans)) {
+            scans = diagnostic.scans;
+          }
+
+          return {
+            ...diagnostic,
+            tests: tests,
+            packages: packages,
+            scans: scans,
+            matchesCart: diagnostic.matchesCart || false,
+            matchedItemCount: diagnostic.matchedItemCount || 0
+          };
+        });
+
+        setDiagnostics(transformedDiagnostics);
+        findMatchingDiagnostics(transformedDiagnostics);
+
+        // ✅ Cart info display karein
+        if (response.data.cartInfo) {
+          console.log("🛒 Cart Information:", response.data.cartInfo);
+
+          // Optional: User ko cart info show karein
+          if (response.data.cartInfo.hasCart) {
+            console.log(`User ke cart mein ${response.data.cartInfo.cartItemCount} items hain`);
+          }
         }
-      } else if (err.response.status === 404) {
-        setError("API endpoint not found. Please check backend routes.");
-      } else if (err.response.status === 500) {
-        setError("Server error. Please try again later.");
       } else {
-        setError(`Error: ${err.response.status} - ${err.response.data?.message || 'Unknown error'}`);
+        setDiagnostics([]);
+        setFilteredDiagnostics([]);
+        setError("No diagnostics found for your company");
       }
-    } else if (err.request) {
-      // ✅ Network error
-      console.error("Network Error:", err.request);
-      setError("Network error. Please check your internet connection.");
-    } else {
-      // ✅ Setup error
-      console.error("Setup Error:", err.message);
-      setError("Error setting up request.");
+      setLoading(false);
+    } catch (err) {
+      console.error("❌ Error fetching company diagnostics:", err);
+
+      // ✅ Detailed error logging
+      if (err.response) {
+        console.error("Error Status:", err.response.status);
+        console.error("Error Data:", err.response.data);
+        console.error("Error Headers:", err.response.headers);
+
+        // ✅ Specific error messages
+        if (err.response.status === 400) {
+          if (err.response.data?.message?.includes("staffId")) {
+            setError("Staff ID is required. Please login again.");
+          } else if (err.response.data?.message?.includes("companyId")) {
+            setError("Company ID is required. Please login again.");
+          } else {
+            setError(err.response.data?.message || "Bad request");
+          }
+        } else if (err.response.status === 404) {
+          setError("API endpoint not found. Please check backend routes.");
+        } else if (err.response.status === 500) {
+          setError("Server error. Please try again later.");
+        } else {
+          setError(`Error: ${err.response.status} - ${err.response.data?.message || 'Unknown error'}`);
+        }
+      } else if (err.request) {
+        // ✅ Network error
+        console.error("Network Error:", err.request);
+        setError("Network error. Please check your internet connection.");
+      } else {
+        // ✅ Setup error
+        console.error("Setup Error:", err.message);
+        setError("Error setting up request.");
+      }
+
+      setLoading(false);
     }
-    
-    setLoading(false);
-  }
-};
+  };
 
   const handleDetailsClick = (diagnostic, type) => {
     setSelectedDiagnostic(diagnostic);
     setSelectedDetailsType(type);
     setShowDetailsModal(true);
-    
+
     setDetailsLoading(true);
-    
+
     setTimeout(() => {
       let data = [];
-      
-      switch(type) {
+
+      switch (type) {
         case 'tests':
           data = diagnostic.tests || [];
           break;
@@ -326,7 +326,7 @@ const DiagnosticsPage = () => {
         default:
           data = [];
       }
-      
+
       setDetailsData(data);
       setDetailsLoading(false);
     }, 300);
@@ -334,37 +334,37 @@ const DiagnosticsPage = () => {
 
   const checkDiagnosticHasCartItems = (diagnostic) => {
     if (!fromCart || cartItems.length === 0) return false;
-    
+
     const cartItemIds = cartItems.map(item => item.itemId);
     let hasCartItems = false;
-    
+
     if (diagnostic.tests && Array.isArray(diagnostic.tests)) {
-      hasCartItems = diagnostic.tests.some(test => 
+      hasCartItems = diagnostic.tests.some(test =>
         cartItemIds.includes(test._id)
       );
     }
-    
+
     if (!hasCartItems && diagnostic.scans && Array.isArray(diagnostic.scans)) {
-      hasCartItems = diagnostic.scans.some(scan => 
+      hasCartItems = diagnostic.scans.some(scan =>
         cartItemIds.includes(scan._id)
       );
     }
-    
+
     if (!hasCartItems && diagnostic.packages && Array.isArray(diagnostic.packages)) {
-      hasCartItems = diagnostic.packages.some(pkg => 
+      hasCartItems = diagnostic.packages.some(pkg =>
         cartItemIds.includes(pkg._id)
       );
     }
-    
+
     return hasCartItems;
   };
 
   const getCartItemsInDiagnostic = (diagnostic) => {
     if (!fromCart || cartItems.length === 0) return [];
-    
+
     const cartItemIds = cartItems.map(item => item.itemId);
     const itemsInThisDiagnostic = [];
-    
+
     if (diagnostic.tests && Array.isArray(diagnostic.tests)) {
       diagnostic.tests.forEach(test => {
         if (cartItemIds.includes(test._id)) {
@@ -378,7 +378,7 @@ const DiagnosticsPage = () => {
         }
       });
     }
-    
+
     if (diagnostic.scans && Array.isArray(diagnostic.scans)) {
       diagnostic.scans.forEach(scan => {
         if (cartItemIds.includes(scan._id)) {
@@ -392,7 +392,7 @@ const DiagnosticsPage = () => {
         }
       });
     }
-    
+
     if (diagnostic.packages && Array.isArray(diagnostic.packages)) {
       diagnostic.packages.forEach(pkg => {
         if (cartItemIds.includes(pkg._id)) {
@@ -406,15 +406,15 @@ const DiagnosticsPage = () => {
         }
       });
     }
-    
+
     return itemsInThisDiagnostic;
   };
 
   // ✅ NEW FUNCTION: Check if same date and time slot already exists in bookings
   const checkSameDateSlotExists = (diagnosticId, date, timeSlot) => {
-    return bookings.some(booking => 
-      booking.diagnostic._id !== diagnosticId && 
-      booking.date === date && 
+    return bookings.some(booking =>
+      booking.diagnostic._id !== diagnosticId &&
+      booking.date === date &&
       booking.timeSlot === timeSlot
     );
   };
@@ -452,18 +452,18 @@ const DiagnosticsPage = () => {
   // ✅ NEW FUNCTION: Confirm booking after preview
   const confirmAddToBookings = () => {
     if (!previewBooking) return;
-    
+
     setBookings(prev => [...prev, previewBooking]);
-    
+
     setSelectedDate("");
     setSelectedTime("");
     setSelectedAddress("");
     setAvailableSlots([]);
     setAvailableDates([]);
-    
+
     setShowPreviewModal(false);
     setPreviewBooking(null);
-    
+
     // Optional: Show success message
     alert(`✅ ${previewBooking.diagnostic.name} Diagnostics selected successfully. Add more diagnostics if required`);
   };
@@ -479,13 +479,13 @@ const DiagnosticsPage = () => {
   // ✅ NEW FUNCTION: Handle duplicate items error
   const handleDuplicateItemsError = (errorData) => {
     console.log("Duplicate items error:", errorData);
-    
+
     setBookingError({
       message: errorData.message || "You have already booked some items",
       duplicateItems: errorData.duplicateItems || [],
       suggestion: errorData.suggestion || "Please remove these items from your cart"
     });
-    
+
     setDuplicateItems(errorData.duplicateItems || []);
     setShowErrorModal(true);
   };
@@ -515,8 +515,8 @@ const DiagnosticsPage = () => {
       if (availableBalance >= totalPrice) {
         // Sufficient wallet balance - proceed with wallet payment
         console.log("✅ Sufficient balance, proceeding with wallet payment");
-        
-        const bookingPromises = bookings.map(booking => 
+
+        const bookingPromises = bookings.map(booking =>
           axios.post(
             `https://api.elthiumhealth.com/api/staff/create-bookings/${staffId}`,
             {
@@ -573,7 +573,7 @@ const DiagnosticsPage = () => {
       }
     } catch (error) {
       console.error("Error creating multiple bookings:", error);
-      
+
       // Check for insufficient balance error in catch
       if (error.response?.data?.message?.includes("Insufficient wallet balance")) {
         setInsufficientBalanceData({
@@ -596,12 +596,12 @@ const DiagnosticsPage = () => {
   const handleOnlinePayment = async () => {
     setShowInsufficientBalanceModal(false);
     setProcessingPayment(true);
-    
+
     const totalPrice = calculateTotalPrice();
     const walletAvailable = insufficientBalanceData.walletAvailable;
-    
+
     await initializeRazorpayMultiplePayment(totalPrice, walletAvailable);
-    
+
     setProcessingPayment(false);
   };
 
@@ -646,37 +646,24 @@ const DiagnosticsPage = () => {
     }
   };
 
-  // ✅ FIXED: Start from tomorrow (i = 1)
+  //Dates fetching
+
   const fetchAvailableDates = async (diagnosticId, option) => {
     try {
       const today = new Date();
       const dates = [];
-      
-      // ✅ i = 1 se shuru - kal se (aaj nahi)
+
       for (let i = 1; i <= 7; i++) {
         const date = new Date(today);
         date.setDate(today.getDate() + i);
-        const dateString = date.toISOString().split('T')[0];
-        
-        try {
-          const response = await axios.get(
-            `https://api.elthiumhealth.com/api/staff/diagnosticslots/${diagnosticId}?date=${dateString}&type=${option}`
-          );
-          
-          if (response.data.slots && response.data.slots.length > 0) {
-            const availableSlots = response.data.slots.filter(slot => !slot.isBooked);
-            if (availableSlots.length > 0) {
-              dates.push(dateString);
-            }
-          }
-        } catch (error) {
-          continue;
-        }
+        const dateString = date.toISOString().split("T")[0];
+
+        dates.push(dateString); // Always add the date
       }
-      
+
       setAvailableDates(dates);
     } catch (error) {
-      console.error("Error fetching available dates:", error);
+      console.error(error);
       setAvailableDates([]);
     }
   };
@@ -734,7 +721,7 @@ const DiagnosticsPage = () => {
     setSelectedTime("");
     setAvailableSlots([]);
     setAvailableDates([]);
-    
+
     if (selectedOption && diagnostic._id) {
       fetchAvailableDates(diagnostic._id, selectedOption);
     }
@@ -875,12 +862,12 @@ const DiagnosticsPage = () => {
 
     // Extract duplicate item IDs
     const duplicateItemIds = bookingError.duplicateItems.map(item => item.itemId);
-    
+
     // Filter out bookings that contain duplicate items
     const updatedBookings = bookings.filter(booking => {
       // Check if this booking's diagnostic has any duplicate items
       const cartItemsInDiagnostic = getCartItemsInDiagnostic(booking.diagnostic);
-      const hasDuplicate = cartItemsInDiagnostic.some(item => 
+      const hasDuplicate = cartItemsInDiagnostic.some(item =>
         duplicateItemIds.includes(item.itemId)
       );
       return !hasDuplicate;
@@ -888,7 +875,7 @@ const DiagnosticsPage = () => {
 
     setBookings(updatedBookings);
     setShowErrorModal(false);
-    
+
     // Show message about removed items
     if (updatedBookings.length < bookings.length) {
       alert(`Removed ${bookings.length - updatedBookings.length} bookings with duplicate items. You can now try booking again.`);
@@ -920,8 +907,8 @@ const DiagnosticsPage = () => {
 
         try {
           setProcessingPayment(true);
-          
-          const bookingPromises = bookings.map(booking => 
+
+          const bookingPromises = bookings.map(booking =>
             axios.post(
               `https://api.elthiumhealth.com/api/staff/create-bookings/${staffId}`,
               {
@@ -934,7 +921,7 @@ const DiagnosticsPage = () => {
                 transactionId: razorpayTransactionId,
                 walletAmount: walletBalanceUsed || 0,
               }
-            )            
+            )
           );
 
           const responses = await Promise.all(bookingPromises);
@@ -961,7 +948,7 @@ const DiagnosticsPage = () => {
           }
         } catch (error) {
           console.error("Error completing multiple bookings:", error);
-          
+
           // ✅ Handle duplicate items error from catch block
           if (error.response?.data?.duplicateItems) {
             handleDuplicateItemsError(error.response.data);
@@ -981,7 +968,7 @@ const DiagnosticsPage = () => {
         color: "#3399cc",
       },
       modal: {
-        ondismiss: function() {
+        ondismiss: function () {
           console.log("Razorpay modal dismissed");
           setProcessingPayment(false);
         }
@@ -1017,7 +1004,7 @@ const DiagnosticsPage = () => {
   };
 
   const getDiagnosticColor = (centerType) => {
-    switch(centerType?.toLowerCase()) {
+    switch (centerType?.toLowerCase()) {
       case 'hospital':
         return 'bg-red-50 border-red-200';
       case 'clinic':
@@ -1032,7 +1019,7 @@ const DiagnosticsPage = () => {
   };
 
   const getDiagnosticIcon = (centerType) => {
-    switch(centerType?.toLowerCase()) {
+    switch (centerType?.toLowerCase()) {
       case 'hospital':
         return '🏥';
       case 'clinic':
@@ -1064,7 +1051,7 @@ const DiagnosticsPage = () => {
   };
 
   const getDetailsTitle = () => {
-    switch(selectedDetailsType) {
+    switch (selectedDetailsType) {
       case 'tests': return 'Available Tests';
       case 'scans': return 'Available Scans';
       case 'packages': return 'Health Packages';
@@ -1073,7 +1060,7 @@ const DiagnosticsPage = () => {
   };
 
   const getDetailsIcon = () => {
-    switch(selectedDetailsType) {
+    switch (selectedDetailsType) {
       case 'tests': return <TestTube className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />;
       case 'scans': return <Scan className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />;
       case 'packages': return <Package className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />;
@@ -1082,7 +1069,7 @@ const DiagnosticsPage = () => {
   };
 
   const getEmptyMessage = () => {
-    switch(selectedDetailsType) {
+    switch (selectedDetailsType) {
       case 'tests': return 'No tests available for this diagnostic center.';
       case 'scans': return 'No scans available for this diagnostic center.';
       case 'packages': return 'No packages available for this diagnostic center.';
@@ -1094,25 +1081,25 @@ const DiagnosticsPage = () => {
     const isAlreadyBooked = bookings.some(b => b.diagnostic._id === diagnostic._id);
     const hasCartItems = checkDiagnosticHasCartItems(diagnostic);
     const cartItemsInDiagnostic = getCartItemsInDiagnostic(diagnostic);
-    
+
     return (
       <div key={diagnostic._id} className="group bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 sm:hover:-translate-y-2">
         <div className="relative p-4 sm:p-6">
           <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
-            <span className={`px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs font-medium ${diagnostic.centerType?.toLowerCase() === 'hospital' ? 'bg-red-100 text-red-800' : 
-              diagnostic.centerType?.toLowerCase() === 'clinic' ? 'bg-blue-100 text-blue-800' : 
-              diagnostic.centerType?.toLowerCase() === 'lab' ? 'bg-green-100 text-green-800' : 
-              'bg-purple-100 text-purple-800'}`}>
+            <span className={`px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs font-medium ${diagnostic.centerType?.toLowerCase() === 'hospital' ? 'bg-red-100 text-red-800' :
+              diagnostic.centerType?.toLowerCase() === 'clinic' ? 'bg-blue-100 text-blue-800' :
+                diagnostic.centerType?.toLowerCase() === 'lab' ? 'bg-green-100 text-green-800' :
+                  'bg-purple-100 text-purple-800'}`}>
               {diagnostic.centerType || "Diagnostic"}
             </span>
           </div>
-          
+
           <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
             <span className="px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs font-medium bg-gradient-to-r from-green-100 to-emerald-100 text-green-800">
               Approved
             </span>
           </div>
-          
+
           {fromCart && hasCartItems && cartItemsInDiagnostic.length > 0 && (
             <div className="absolute top-12 sm:top-16 left-3 sm:left-4 z-10">
               <span className="px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs font-medium bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-sm flex items-center">
@@ -1121,7 +1108,7 @@ const DiagnosticsPage = () => {
               </span>
             </div>
           )}
-          
+
           {isAlreadyBooked && (
             <div className={`absolute ${fromCart && hasCartItems ? 'top-12 left-20 sm:top-16 sm:left-24' : 'top-12 left-3 sm:top-16 sm:left-4'} z-10`}>
               <span className="px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs font-medium bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-sm">
@@ -1129,22 +1116,22 @@ const DiagnosticsPage = () => {
               </span>
             </div>
           )}
-          
+
           <div className={`mb-3 sm:mb-4 p-2 sm:p-4 rounded-lg sm:rounded-xl inline-block ${getDiagnosticColor(diagnostic.centerType)}`}>
             <span className="text-2xl sm:text-3xl">{getDiagnosticIcon(diagnostic.centerType)}</span>
           </div>
-          
+
           <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-blue-600 transition-colors line-clamp-1">
             {diagnostic.name}
           </h3>
-          
+
           <div className="flex items-start mb-3 sm:mb-4">
             <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mr-2 sm:mr-3 mt-0.5 flex-shrink-0" />
             <p className="text-xs sm:text-sm text-gray-600 leading-relaxed line-clamp-2">
               {diagnostic.address}
             </p>
           </div>
-          
+
           {fromCart && cartItemsInDiagnostic.length > 0 && (
             <div className="mb-2 sm:mb-3 p-2 sm:p-3 bg-orange-50 rounded-lg border border-orange-200">
               <p className="text-xs font-medium text-orange-800 mb-1">
@@ -1165,9 +1152,9 @@ const DiagnosticsPage = () => {
               </div>
             </div>
           )}
-          
+
           <div className="grid grid-cols-3 gap-1 sm:gap-2 mb-3 sm:mb-4">
-            <div 
+            <div
               onClick={() => handleDetailsClick(diagnostic, 'tests')}
               className="bg-blue-50 rounded-lg p-1.5 sm:p-2 text-center cursor-pointer hover:bg-blue-100 transition-colors duration-200 border border-blue-100 hover:border-blue-300 active:scale-95"
               title="Click to view available tests"
@@ -1182,8 +1169,8 @@ const DiagnosticsPage = () => {
                 Click to view
               </div>
             </div>
-            
-            <div 
+
+            <div
               onClick={() => handleDetailsClick(diagnostic, 'scans')}
               className="bg-green-50 rounded-lg p-1.5 sm:p-2 text-center cursor-pointer hover:bg-green-100 transition-colors duration-200 border border-green-100 hover:border-green-300 active:scale-95"
               title="Click to view available scans"
@@ -1198,8 +1185,8 @@ const DiagnosticsPage = () => {
                 Click to view
               </div>
             </div>
-            
-            <div 
+
+            <div
               onClick={() => handleDetailsClick(diagnostic, 'packages')}
               className="bg-purple-50 rounded-lg p-1.5 sm:p-2 text-center cursor-pointer hover:bg-purple-100 transition-colors duration-200 border border-purple-100 hover:border-purple-300 active:scale-95"
               title="Click to view available packages"
@@ -1215,19 +1202,19 @@ const DiagnosticsPage = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="space-y-1.5 sm:space-y-2 mb-3 sm:mb-4">
             {diagnostic.description && (
               <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">{diagnostic.description}</p>
             )}
-            
+
             {diagnostic.phone && (
               <div className="flex items-center text-gray-500 text-xs sm:text-sm">
                 <Phone className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
                 <span>{diagnostic.phone}</span>
               </div>
             )}
-            
+
             {diagnostic.email && (
               <div className="flex items-center text-gray-500 text-xs sm:text-sm">
                 <Mail className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
@@ -1235,7 +1222,7 @@ const DiagnosticsPage = () => {
               </div>
             )}
           </div>
-          
+
           {diagnostic.price && (
             <div className="mb-3 sm:mb-4">
               <div className="flex items-center justify-between bg-gray-50 p-2 sm:p-3 rounded-lg">
@@ -1244,15 +1231,14 @@ const DiagnosticsPage = () => {
               </div>
             </div>
           )}
-          
+
           <button
             onClick={() => handleDiagnosticClick(diagnostic)}
             disabled={isAlreadyBooked}
-            className={`w-full py-2.5 sm:py-3.5 font-semibold rounded-xl border-2 transition-all duration-300 group-hover:shadow-md flex items-center justify-center text-sm sm:text-base ${
-              isAlreadyBooked
-                ? 'bg-gray-100 text-gray-500 border-gray-300 cursor-not-allowed'
-                : 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border-blue-200 hover:from-blue-100 hover:to-blue-200 hover:border-blue-300 hover:text-blue-800 hover:shadow-lg'
-            }`}
+            className={`w-full py-2.5 sm:py-3.5 font-semibold rounded-xl border-2 transition-all duration-300 group-hover:shadow-md flex items-center justify-center text-sm sm:text-base ${isAlreadyBooked
+              ? 'bg-gray-100 text-gray-500 border-gray-300 cursor-not-allowed'
+              : 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border-blue-200 hover:from-blue-100 hover:to-blue-200 hover:border-blue-300 hover:text-blue-800 hover:shadow-lg'
+              }`}
           >
             {isAlreadyBooked ? (
               <>
@@ -1269,7 +1255,7 @@ const DiagnosticsPage = () => {
             )}
           </button>
         </div>
-        
+
         <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-2 sm:px-6 sm:py-4 border-t border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
@@ -1310,7 +1296,7 @@ const DiagnosticsPage = () => {
                 {getDescriptionText()}
               </p>
               {error && <p className="text-red-500 mt-2 sm:mt-4 text-sm sm:text-base">{error}</p>}
-              
+
               {fromCart && cartItems.length > 0 && (
                 <div className="mt-2 sm:mt-4 inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-50 rounded-full">
                   <span className="text-blue-700 font-medium text-sm sm:text-base">
@@ -1364,7 +1350,7 @@ const DiagnosticsPage = () => {
                       >
                         <Trash2 size={12} className="sm:w-4 sm:h-4" />
                       </button>
-                      
+
                       <div className="flex items-start justify-between">
                         <div className="flex-1 pr-2">
                           <h4 className="font-bold text-gray-900 text-xs sm:text-sm truncate">{booking.diagnostic.name}</h4>
@@ -1383,9 +1369,9 @@ const DiagnosticsPage = () => {
                         </div>
                         <div className="text-right ml-2">
                           <p className="text-sm font-bold text-gray-900">₹{booking.price || 0}</p>
-                          <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full mt-1 sm:mt-2 ${booking.diagnostic.centerType?.toLowerCase() === 'hospital' ? 'bg-red-500' : 
-                            booking.diagnostic.centerType?.toLowerCase() === 'clinic' ? 'bg-blue-500' : 
-                            booking.diagnostic.centerType?.toLowerCase() === 'lab' ? 'bg-green-500' : 'bg-purple-500'}`}></div>
+                          <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full mt-1 sm:mt-2 ${booking.diagnostic.centerType?.toLowerCase() === 'hospital' ? 'bg-red-500' :
+                            booking.diagnostic.centerType?.toLowerCase() === 'clinic' ? 'bg-blue-500' :
+                              booking.diagnostic.centerType?.toLowerCase() === 'lab' ? 'bg-green-500' : 'bg-purple-500'}`}></div>
                         </div>
                       </div>
                     </div>
@@ -1407,14 +1393,14 @@ const DiagnosticsPage = () => {
                 </div>
               </div>
             )}
-            
+
             {loading && (
               <div className="text-center py-8 sm:py-12">
                 <div className="inline-block animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-600"></div>
                 <p className="mt-3 sm:mt-4 text-gray-600 text-sm sm:text-base">Loading diagnostic centers...</p>
               </div>
             )}
-            
+
             {filteredDiagnostics.length === 0 && !loading && fromCart && cartItems.length > 0 && (
               <div className="text-center py-8 sm:py-12">
                 <div className="text-gray-400 mb-3 sm:mb-4">
@@ -1432,7 +1418,7 @@ const DiagnosticsPage = () => {
                 </button>
               </div>
             )}
-            
+
             {filteredDiagnostics.length === 0 && !loading && !fromCart && (
               <div className="text-center py-8 sm:py-12">
                 <div className="text-gray-400 mb-3 sm:mb-4">
@@ -1449,7 +1435,7 @@ const DiagnosticsPage = () => {
                 </button>
               </div>
             )}
-            
+
             {filteredDiagnostics.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {filteredDiagnostics.map((diagnostic) => renderDiagnosticCard(diagnostic))}
@@ -1508,7 +1494,7 @@ const DiagnosticsPage = () => {
                   >
                     Cancel
                   </button>
-                  
+
                   <button
                     onClick={handleOnlinePayment}
                     className="px-4 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-amber-600 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
@@ -1581,8 +1567,8 @@ const DiagnosticsPage = () => {
                   <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                     <span className="text-gray-600 font-medium">Patient</span>
                     <span className="font-semibold text-gray-900">
-                      {previewBooking.familyMemberId === staff?._id 
-                        ? staff?.name 
+                      {previewBooking.familyMemberId === staff?._id
+                        ? staff?.name
                         : familyMembers.find(m => m._id === previewBooking.familyMemberId)?.fullName || 'Self'}
                     </span>
                   </div>
@@ -1594,7 +1580,7 @@ const DiagnosticsPage = () => {
                         <div>
                           <span className="text-gray-600 font-medium block mb-1">Collection Address</span>
                           <span className="text-gray-900 text-sm">
-                            {addresses.find(a => a._id === previewBooking.addressId)?.street}, 
+                            {addresses.find(a => a._id === previewBooking.addressId)?.street},
                             {addresses.find(a => a._id === previewBooking.addressId)?.city}
                           </span>
                         </div>
@@ -1622,7 +1608,7 @@ const DiagnosticsPage = () => {
                   >
                     Cancel
                   </button>
-                  
+
                   <button
                     onClick={confirmAddToBookings}
                     className="px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
@@ -1658,7 +1644,7 @@ const DiagnosticsPage = () => {
                 {/* Error Message */}
                 <div className="mb-5">
                   <p className="text-gray-800 font-medium mb-3">{sameSlotError}</p>
-                  
+
                   <div className="bg-amber-50 p-4 rounded-lg border border-amber-200 mb-4">
                     <div className="flex items-start">
                       <Info className="w-5 h-5 text-amber-600 mr-2 mt-0.5 flex-shrink-0" />
@@ -1688,7 +1674,7 @@ const DiagnosticsPage = () => {
                     <Clock className="w-4 h-4 mr-2" />
                     Choose Different Time
                   </button>
-                  
+
                   <button
                     onClick={() => setShowSameSlotModal(false)}
                     className="px-4 py-3 bg-gradient-to-r from-gray-500 to-gray-700 text-white font-semibold rounded-xl hover:from-gray-600 hover:to-gray-800 transition-all duration-300 flex items-center justify-center text-sm"
@@ -1769,7 +1755,7 @@ const DiagnosticsPage = () => {
                     <Trash2 className="w-4 h-4 mr-2" />
                     Manage Cart
                   </button>
-                  
+
                   <button
                     onClick={handleViewExistingBookings}
                     className="px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 flex items-center justify-center text-sm"
@@ -1777,7 +1763,7 @@ const DiagnosticsPage = () => {
                     <Calendar className="w-4 h-4 mr-2" />
                     View Bookings
                   </button>
-                  
+
                   <button
                     onClick={handleRemoveDuplicatesAndRetry}
                     className="px-4 py-3 bg-gradient-to-r from-gray-500 to-gray-700 text-white font-semibold rounded-xl hover:from-gray-600 hover:to-gray-800 transition-all duration-300 flex items-center justify-center text-sm"
@@ -1820,7 +1806,7 @@ const DiagnosticsPage = () => {
                 </div>
                 <h3 className="text-xl font-bold text-white mb-1">Booking Confirmed!</h3>
                 <p className="text-green-100 text-sm">
-                  {bookingSuccessData?.type === 'multiple' 
+                  {bookingSuccessData?.type === 'multiple'
                     ? `${bookingSuccessData.count} diagnostics booked successfully`
                     : 'Your booking has been confirmed'}
                 </p>
@@ -1911,7 +1897,7 @@ const DiagnosticsPage = () => {
                   </button>
                 </div>
               </div>
-              
+
               <div className="p-4 sm:p-6 overflow-y-auto max-h-[60vh] sm:max-h-[70vh]">
                 {detailsLoading ? (
                   <div className="text-center py-8 sm:py-12">
@@ -1925,12 +1911,12 @@ const DiagnosticsPage = () => {
                         Total {selectedDetailsType.charAt(0).toUpperCase() + selectedDetailsType.slice(1)}: {detailsData.length}
                       </h4>
                     </div>
-                    
+
                     {detailsData.length > 0 ? (
                       <div className="grid gap-3 sm:gap-4">
                         {detailsData.map((item, index) => {
                           const isInCart = cartItems.some(cartItem => cartItem.itemId === item._id);
-                          
+
                           return (
                             <div key={item._id || index} className={`bg-gray-50 rounded-xl p-3 sm:p-5 border ${isInCart ? 'border-green-300 bg-green-50' : 'border-gray-200'} hover:border-gray-300 transition-colors`}>
                               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start">
@@ -1945,18 +1931,18 @@ const DiagnosticsPage = () => {
                                       </span>
                                     )}
                                   </div>
-                                  
+
                                   {item.description && (
                                     <p className="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">{item.description}</p>
                                   )}
-                                  
+
                                   {item.preparation && (
                                     <div className="mt-2 sm:mt-3">
                                       <span className="text-xs sm:text-sm font-medium text-gray-700">Preparation: </span>
                                       <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">{item.preparation}</p>
                                     </div>
                                   )}
-                                  
+
                                   <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 mt-2 sm:mt-3">
                                     {item.price !== undefined && item.price !== null && (
                                       <div className="flex items-center">
@@ -1964,21 +1950,21 @@ const DiagnosticsPage = () => {
                                         <span className="text-base sm:text-lg font-bold text-blue-600">₹{item.price}</span>
                                       </div>
                                     )}
-                                    
+
                                     {(item.reportHour || item.reportTime) && (
                                       <div className="flex items-center">
                                         <span className="text-xs sm:text-sm font-medium text-gray-700 mr-1 sm:mr-2">Report:</span>
                                         <span className="text-xs sm:text-sm text-gray-600">{item.reportHour || item.reportTime} hours</span>
                                       </div>
                                     )}
-                                    
+
                                     {item.totalTestsIncluded && (
                                       <div className="flex items-center">
                                         <span className="text-xs sm:text-sm font-medium text-gray-700 mr-1 sm:mr-2">Tests:</span>
                                         <span className="text-xs sm:text-sm font-bold text-purple-600">{item.totalTestsIncluded}</span>
                                       </div>
                                     )}
-                                    
+
                                     {item.fastingRequired !== undefined && (
                                       <div className="flex items-center">
                                         <span className="text-xs sm:text-sm font-medium text-gray-700 mr-1 sm:mr-2">Fasting:</span>
@@ -1989,14 +1975,13 @@ const DiagnosticsPage = () => {
                                     )}
                                   </div>
                                 </div>
-                                
+
                                 <div className="mt-2 sm:mt-0 sm:ml-4">
                                   {item.gender && (
-                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                      item.gender === 'Male' ? 'bg-blue-100 text-blue-800' :
+                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${item.gender === 'Male' ? 'bg-blue-100 text-blue-800' :
                                       item.gender === 'Female' ? 'bg-pink-100 text-pink-800' :
-                                      'bg-gray-100 text-gray-800'
-                                    }`}>
+                                        'bg-gray-100 text-gray-800'
+                                      }`}>
                                       {item.gender}
                                     </span>
                                   )}
@@ -2019,7 +2004,7 @@ const DiagnosticsPage = () => {
                   </>
                 )}
               </div>
-              
+
               <div className="p-4 sm:p-6 border-t border-gray-200 bg-gray-50">
                 <div className="flex flex-col sm:flex-row justify-between items-center">
                   <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-0 text-center sm:text-left">
@@ -2129,10 +2114,10 @@ const DiagnosticsPage = () => {
                         Book {selectedDiagnostic.name}
                       </h3>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${selectedDiagnostic.centerType?.toLowerCase() === 'hospital' ? 'bg-red-100 text-red-800' : 
-                          selectedDiagnostic.centerType?.toLowerCase() === 'clinic' ? 'bg-blue-100 text-blue-800' : 
-                          selectedDiagnostic.centerType?.toLowerCase() === 'lab' ? 'bg-green-100 text-green-800' : 
-                          'bg-purple-100 text-purple-800'}`}>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${selectedDiagnostic.centerType?.toLowerCase() === 'hospital' ? 'bg-red-100 text-red-800' :
+                          selectedDiagnostic.centerType?.toLowerCase() === 'clinic' ? 'bg-blue-100 text-blue-800' :
+                            selectedDiagnostic.centerType?.toLowerCase() === 'lab' ? 'bg-green-100 text-green-800' :
+                              'bg-purple-100 text-purple-800'}`}>
                           {selectedDiagnostic.centerType || "Diagnostic Center"}
                         </span>
                         <span className="text-xs sm:text-sm text-gray-600">
@@ -2148,7 +2133,7 @@ const DiagnosticsPage = () => {
                     <X size={22} />
                   </button>
                 </div>
-                
+
                 {/* Quick Info Bar */}
                 <div className="mt-4 p-3 sm:p-4 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
@@ -2190,24 +2175,27 @@ const DiagnosticsPage = () => {
                           <p className="text-xs sm:text-sm text-gray-600">Select a date for your appointment</p>
                         </div>
                       </div>
-                      
+
                       {availableDates.length > 0 ? (
                         <>
                           <div className="flex flex-wrap gap-2 sm:gap-3">
-                            {(showAllDates ? availableDates : availableDates.slice(0, 6)).map((date, index) => {
+                            {(showAllDates ? availableDates : availableDates.slice(0, 7)).map((date, index) => {
                               const dateObj = new Date(date);
                               const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                               const dayName = dayNames[dateObj.getDay()];
                               const dayNumber = dateObj.getDate();
                               const month = dateObj.toLocaleDateString('en-US', { month: 'short' });
 
+                              console.log("Available Dates:", availableDates);
+                              console.log("Length:", availableDates.length);
+
                               return (
                                 <button
-                                  key={index}
+                                  key={date}
                                   onClick={() => handleDateSelect(date)}
                                   className={`flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-xl text-sm relative transition-all duration-300 flex-shrink-0 ${selectedDate === date
-                                      ? 'bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg transform scale-105'
-                                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:shadow-md border border-gray-200'
+                                    ? 'bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg transform scale-105'
+                                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:shadow-md border border-gray-200'
                                     }`}
                                 >
                                   {selectedDate === date && (
@@ -2223,17 +2211,7 @@ const DiagnosticsPage = () => {
                             })}
                           </div>
 
-                          {availableDates.length > 6 && (
-                            <div className="text-center mt-4">
-                              <button
-                                type="button"
-                                onClick={() => setShowAllDates(!showAllDates)}
-                                className="text-blue-600 text-sm font-medium hover:text-blue-700 px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
-                              >
-                                {showAllDates ? 'Show Less' : `View All ${availableDates.length} Dates`}
-                              </button>
-                            </div>
-                          )}
+
                         </>
                       ) : (
                         <div className="text-center py-6 bg-gray-50 rounded-xl">
@@ -2260,10 +2238,12 @@ const DiagnosticsPage = () => {
                             <p className="mt-3 text-gray-600 text-sm sm:text-base">Loading available slots...</p>
                           </div>
                         )}
-                        
+
                         {slotError && (
                           <div className="bg-red-50 border border-red-200 rounded-xl p-4">
-                            <p className="text-red-600 text-center text-sm sm:text-base">{slotError}</p>
+                            <p className="text-red-600 text-center text-sm sm:text-base">
+                              {slotError}
+                            </p>
                           </div>
                         )}
 
@@ -2275,8 +2255,8 @@ const DiagnosticsPage = () => {
                                   key={index}
                                   onClick={() => handleTimeSelect(slot.timeSlot)}
                                   className={`px-3 py-3 sm:px-4 sm:py-3 rounded-xl border-2 text-sm font-medium transition-all duration-300 ${selectedTime === slot.timeSlot
-                                      ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white border-green-500 shadow-lg transform scale-105'
-                                      : slot.isBooked
+                                    ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white border-green-500 shadow-lg transform scale-105'
+                                    : slot.isBooked
                                       ? 'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed'
                                       : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400 hover:shadow-md'
                                     }`}
@@ -2477,7 +2457,7 @@ const DiagnosticsPage = () => {
                     {/* Current Booking Summary */}
                     <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4">Booking Summary</h4>
-                      
+
                       <div className="space-y-3">
                         <div className="flex items-center">
                           <div className={`p-2 rounded-lg mr-3 ${getDiagnosticColor(selectedDiagnostic.centerType)}`}>
@@ -2488,32 +2468,32 @@ const DiagnosticsPage = () => {
                             <p className="text-xs text-gray-600 truncate">{selectedOption}</p>
                           </div>
                         </div>
-                        
+
                         {selectedDate && (
                           <div className="flex items-center text-gray-600">
                             <Calendar className="w-4 h-4 mr-2 flex-shrink-0" />
                             <span className="text-sm">{formatDate(selectedDate)}</span>
                           </div>
                         )}
-                        
+
                         {selectedTime && (
                           <div className="flex items-center text-gray-600">
                             <Clock className="w-4 h-4 mr-2 flex-shrink-0" />
                             <span className="text-sm">{formatTimeDisplay(selectedTime)}</span>
                           </div>
                         )}
-                        
+
                         {selectedFamilyMember && (
                           <div className="flex items-center text-gray-600">
                             <User className="w-4 h-4 mr-2 flex-shrink-0" />
                             <span className="text-sm">
-                              {selectedFamilyMember === staff?._id 
-                                ? staff?.name 
+                              {selectedFamilyMember === staff?._id
+                                ? staff?.name
                                 : familyMembers.find(m => m._id === selectedFamilyMember)?.fullName}
                             </span>
                           </div>
                         )}
-                        
+
                         {selectedOption === "Home Collection" && selectedAddress && (
                           <div className="flex items-center text-gray-600">
                             <Home className="w-4 h-4 mr-2 flex-shrink-0" />
@@ -2522,7 +2502,7 @@ const DiagnosticsPage = () => {
                             </span>
                           </div>
                         )}
-                        
+
                         {selectedDiagnostic.price && (
                           <div className="pt-3 border-t border-gray-200">
                             <div className="flex justify-between items-center">
@@ -2532,15 +2512,14 @@ const DiagnosticsPage = () => {
                           </div>
                         )}
                       </div>
-                      
+
                       <button
                         onClick={addToBookings}
                         disabled={isAddBookingDisabled()}
-                        className={`w-full mt-6 px-4 py-3 font-semibold rounded-xl transition-all duration-300 flex items-center justify-center text-base ${
-                          isAddBookingDisabled()
-                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                            : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
-                        }`}
+                        className={`w-full mt-6 px-4 py-3 font-semibold rounded-xl transition-all duration-300 flex items-center justify-center text-base ${isAddBookingDisabled()
+                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                          : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
+                          }`}
                       >
                         <Eye className="w-5 h-5 mr-2" />
                         Preview Booking
@@ -2550,22 +2529,21 @@ const DiagnosticsPage = () => {
                     {/* All Diagnostics List */}
                     <div className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4">All Diagnostics</h4>
-                      
+
                       <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
                         {filteredDiagnostics.map((diagnostic) => {
                           const isSelected = selectedDiagnostic._id === diagnostic._id;
                           const isBooked = bookings.some(b => b.diagnostic._id === diagnostic._id);
                           const hasCartItems = checkDiagnosticHasCartItems(diagnostic);
-                          
+
                           return (
                             <div
                               key={diagnostic._id}
                               onClick={() => handleSelectAnotherDiagnostic(diagnostic)}
-                              className={`p-3 rounded-xl cursor-pointer transition-all duration-300 border ${
-                                isSelected
-                                  ? 'border-blue-300 bg-gradient-to-r from-blue-50 to-indigo-50'
-                                  : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-                              } ${isBooked ? 'opacity-70' : ''}`}
+                              className={`p-3 rounded-xl cursor-pointer transition-all duration-300 border ${isSelected
+                                ? 'border-blue-300 bg-gradient-to-r from-blue-50 to-indigo-50'
+                                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                                } ${isBooked ? 'opacity-70' : ''}`}
                             >
                               <div className="flex items-center">
                                 <div className={`p-1.5 rounded-lg mr-2 ${getDiagnosticColor(diagnostic.centerType)}`}>
@@ -2615,7 +2593,7 @@ const DiagnosticsPage = () => {
                             {bookings.length}
                           </span>
                         </div>
-                        
+
                         <div className="space-y-2 mb-4 max-h-40 overflow-y-auto pr-1">
                           {bookings.map((booking) => (
                             <div key={booking.id} className="bg-white rounded-lg p-2 border border-gray-200">
@@ -2636,21 +2614,20 @@ const DiagnosticsPage = () => {
                             </div>
                           ))}
                         </div>
-                        
+
                         <div className="pt-3 border-t border-blue-200">
                           <div className="flex justify-between items-center mb-3">
                             <span className="font-medium text-gray-700">Total:</span>
                             <span className="text-lg font-bold text-blue-600">₹{calculateTotalPrice()}</span>
                           </div>
-                          
+
                           <button
                             onClick={handleMultipleBookings}
                             disabled={processingPayment}
-                            className={`w-full py-2.5 font-semibold rounded-lg transition-all duration-300 text-sm ${
-                              processingPayment
-                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-md'
-                            }`}
+                            className={`w-full py-2.5 font-semibold rounded-lg transition-all duration-300 text-sm ${processingPayment
+                              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                              : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-md'
+                              }`}
                           >
                             {processingPayment ? 'Processing...' : `Book All (${bookings.length})`}
                           </button>
@@ -2920,7 +2897,7 @@ const DiagnosticsPage = () => {
 
         <Footer />
       </div>
-      
+
       {/* Add CSS animations */}
       <style jsx>{`
         @keyframes fadeIn {
