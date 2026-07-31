@@ -403,7 +403,7 @@ const StaffPackageBookingPage = () => {
       return;
     }
     const options = {
-      key: "rzp_test_BxtRNvflG06PTV",
+      key: "rzp_live_TK3DGNsXEuWjpz",
       amount: totalPrice * 100,
       currency: "INR",
       name: "Elthium Health",

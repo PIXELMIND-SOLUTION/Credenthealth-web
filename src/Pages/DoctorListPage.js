@@ -220,7 +220,7 @@ const DoctorListPage = () => {
 
   const initializeRazorpayPayment = async (amount, walletBalanceUsed) => {
     const options = {
-      key: 'rzp_test_BxtRNvflG06PTV',
+      key: 'rzp_live_TK3DGNsXEuWjpz',
       amount: (amount - walletBalanceUsed) * 100,
       currency: "INR",
       name: "Elthium Health",

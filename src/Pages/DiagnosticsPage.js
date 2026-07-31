@@ -775,6 +775,7 @@ const DiagnosticsPage = () => {
           addressType: "Home"
         });
       }
+      setShowAddressForm(false)
     } catch (error) {
       console.error("Error creating address:", error);
     }
@@ -907,7 +908,7 @@ const DiagnosticsPage = () => {
     console.log("💳 Razorpay Amount:", amountToPay);
 
     const options = {
-      key: "rzp_test_BxtRNvflG06PTV",
+      key: "rzp_live_TK3DGNsXEuWjpz",
       amount: amountToPay * 100, // Razorpay expects amount in paise
       currency: "INR",
       name: "Elthium Health",
@@ -915,6 +916,7 @@ const DiagnosticsPage = () => {
       handler: async function (response) {
         console.log("✅ Razorpay Payment Success:", response);
         const razorpayTransactionId = response.razorpay_payment_id;
+        console.log("Bookings for test", bookings);
 
         try {
           setProcessingPayment(true);
@@ -932,7 +934,7 @@ const DiagnosticsPage = () => {
                 transactionId: razorpayTransactionId,
                 walletAmount: walletBalanceUsed || 0,
               }
-            )
+            )            
           );
 
           const responses = await Promise.all(bookingPromises);
